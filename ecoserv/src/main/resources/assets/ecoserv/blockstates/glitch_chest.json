@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ecoserv:glitch_chest"
+    },
+    "facing=east": {
+      "model": "ecoserv:glitch_chest",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ecoserv:glitch_chest",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ecoserv:glitch_chest",
+      "y": 270
+    }
+  }
+}

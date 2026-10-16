@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ecoserv:loot_chest"
+    },
+    "facing=east": {
+      "model": "ecoserv:loot_chest",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ecoserv:loot_chest",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ecoserv:loot_chest",
+      "y": 270
+    }
+  }
+}

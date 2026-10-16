@@ -1,0 +1,101 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = "https://maven.minecraftforge.net/" }
+        maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'java'
+
+// --- FTB Quests: условие «Активация» (необязательно) -----------------------------
+// Положи в папку libs/ jar-файлы FTBQuests, FTBLib и ItemFilters из папки mods своего сервера.
+// Без них мод соберётся как обычно, просто без условия «Активация» в книге квестов
+// (всё остальное, включая палку активации с командами, работает).
+def questJars = fileTree(dir: 'libs', include: '*.jar')
+def questJarNames = questJars.files.collect { it.name.toLowerCase() }
+def hasQuestApi = questJarNames.any { it.contains('ftbquests') } && questJarNames.any { it.contains('ftblib') }
+
+// Сборка с условием «Активация» получает версию вида 1.5.0-quests: реестр условий FTB Quests
+// синхронизируется с клиентом, поэтому клиенту нужен тот же самый jar, что и серверу.
+// Разные сборки не пустит на сервер проверка версии мода — с понятной причиной.
+version = project.mod_version + (hasQuestApi ? '-quests' : '')
+group = "com.ecoserv"
+archivesBaseName = "ecoserv"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+    // без jar-файлов FTB Quests интеграцию не компилируем (ForgeGradle копирует исходники в build/sources)
+    if (!hasQuestApi) {
+        exclude 'com/ecoserv/integration/quests/**'
+    }
+}
+
+minecraft {
+    version = "${project.mc_version}-${project.forge_version}"
+    runDir = "run"
+    mappings = project.mappings_version
+    makeObfSourceJar = false
+    // версия мода в коде (Ref.VERSION) = версия сборки
+    replace '@VERSION@', project.version
+    replaceIn 'Ref.java'
+}
+
+repositories {
+    maven { url "https://maven.blamejared.com" }          // JEI, CraftTweaker
+    maven { url "https://maven.saps.dev/releases" }        // FTB (зеркало)
+    maven { url "https://maven.latvian.dev/releases" }     // FTB Legacy
+}
+
+dependencies {
+    // Остальные интеграции (FTB Money и т.п.) подключены через рефлексию, compile-зависимости им не нужны.
+    if (hasQuestApi) {
+        compileOnly questJars
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            if (!hasQuestApi) {
+                exclude 'com/ecoserv/integration/quests/**'
+            }
+        }
+    }
+}
+
+if (hasQuestApi) {
+    logger.lifecycle("[EcoServ] libs/: FTB Quests найден — собираю условие «Активация», версия ${project.version}")
+} else {
+    logger.lifecycle("[EcoServ] libs/: нет FTBQuests/FTBLib jar — собираю без условия «Активация», версия ${project.version}")
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'FMLCorePluginContainsFMLMod': 'false',
+                'Implementation-Title'       : 'EcoServ',
+                'Implementation-Version'     : project.version
+        ])
+    }
+}

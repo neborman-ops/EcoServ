@@ -1,0 +1,17 @@
+[
+  {
+    "modid": "ecoserv",
+    "name": "EcoServ",
+    "description": "Серверный набор: автобэкапы с ротацией, экономика с мостом к FTB Money/Quests, блок-скупщик с прайс-листом, торговля между игроками и админ-панель прямо из инвентаря.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "authorList": [
+      "EcoServ"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

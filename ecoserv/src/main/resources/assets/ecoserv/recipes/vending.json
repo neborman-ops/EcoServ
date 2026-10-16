@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IEI",
+    "GCG",
+    "IRI"
+  ],
+  "key": {
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "E": {
+      "type": "forge:ore_dict",
+      "ore": "gemEmerald"
+    },
+    "G": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    }
+  },
+  "result": {
+    "item": "ecoserv:vending",
+    "count": 1
+  }
+}

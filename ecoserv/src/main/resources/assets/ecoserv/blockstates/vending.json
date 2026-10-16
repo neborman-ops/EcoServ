@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "ecoserv:vending" },
+    "facing=east":  { "model": "ecoserv:vending", "y": 90 },
+    "facing=south": { "model": "ecoserv:vending", "y": 180 },
+    "facing=west":  { "model": "ecoserv:vending", "y": 270 }
+  }
+}
