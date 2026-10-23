@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "ecoserv:blocks/vending_side",
+    "down": "ecoserv:blocks/vending_top",
+    "up": "ecoserv:blocks/vending_top",
+    "north": "ecoserv:blocks/vending_front",
+    "south": "ecoserv:blocks/vending_back",
+    "east": "ecoserv:blocks/vending_side",
+    "west": "ecoserv:blocks/vending_side"
+  }
+}

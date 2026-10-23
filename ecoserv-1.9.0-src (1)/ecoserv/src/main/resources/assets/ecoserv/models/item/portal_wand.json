@@ -1,0 +1,10 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "ecoserv:items/portal_wand"
+  },
+  "overrides": [
+    { "predicate": { "ecoserv:blackhole": 1 }, "model": "ecoserv:item/portal_wand_blackhole" },
+    { "predicate": { "ecoserv:monolith": 1 }, "model": "ecoserv:item/portal_wand_monolith" }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "ecoserv:role_barrier"
+    }
+  }
+}
