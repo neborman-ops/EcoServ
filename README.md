@@ -21,7 +21,7 @@ This mod is designed to work smoothly with other popular server and technical mo
 *   ComputerCraft
 
 
-**You can report bugs, view the source code, or contribute to the project on [Curseforge](https://www.curseforge.com/minecraft/mc-mods/ecoserv)**
+**You can download and report(to comments) on [Curseforge](https://www.curseforge.com/minecraft/mc-mods/ecoserv)**
 
 **Have a good game!** 
 
