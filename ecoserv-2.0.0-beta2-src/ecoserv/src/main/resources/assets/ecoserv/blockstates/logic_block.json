@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "ecoserv:logic_block"
+    },
+    "lit=true": {
+      "model": "ecoserv:logic_block_on"
+    }
+  }
+}

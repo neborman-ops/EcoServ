@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "lit=false,type=0": {
+      "model": "ecoserv:electric_solar"
+    },
+    "lit=true,type=0": {
+      "model": "ecoserv:electric_solar_on"
+    },
+    "lit=false,type=1": {
+      "model": "ecoserv:electric_generator"
+    },
+    "lit=true,type=1": {
+      "model": "ecoserv:electric_generator_on"
+    },
+    "lit=false,type=2": {
+      "model": "ecoserv:electric_battery"
+    },
+    "lit=true,type=2": {
+      "model": "ecoserv:electric_battery_on"
+    },
+    "lit=false,type=3": {
+      "model": "ecoserv:electric_switch"
+    },
+    "lit=true,type=3": {
+      "model": "ecoserv:electric_switch_on"
+    },
+    "lit=false,type=4": {
+      "model": "ecoserv:electric_splitter"
+    },
+    "lit=true,type=4": {
+      "model": "ecoserv:electric_splitter_on"
+    },
+    "lit=false,type=5": {
+      "model": "ecoserv:electric_and"
+    },
+    "lit=true,type=5": {
+      "model": "ecoserv:electric_and_on"
+    },
+    "lit=false,type=6": {
+      "model": "ecoserv:electric_or"
+    },
+    "lit=true,type=6": {
+      "model": "ecoserv:electric_or_on"
+    },
+    "lit=false,type=7": {
+      "model": "ecoserv:electric_xor"
+    },
+    "lit=true,type=7": {
+      "model": "ecoserv:electric_xor_on"
+    },
+    "lit=false,type=8": {
+      "model": "ecoserv:electric_timer"
+    },
+    "lit=true,type=8": {
+      "model": "ecoserv:electric_timer_on"
+    },
+    "lit=false,type=9": {
+      "model": "ecoserv:electric_sensor"
+    },
+    "lit=true,type=9": {
+      "model": "ecoserv:electric_sensor_on"
+    },
+    "lit=false,type=10": {
+      "model": "ecoserv:electric_rs_in"
+    },
+    "lit=true,type=10": {
+      "model": "ecoserv:electric_rs_in_on"
+    },
+    "lit=false,type=11": {
+      "model": "ecoserv:electric_rs_out"
+    },
+    "lit=true,type=11": {
+      "model": "ecoserv:electric_rs_out_on"
+    },
+    "lit=false,type=12": {
+      "model": "ecoserv:electric_lamp"
+    },
+    "lit=true,type=12": {
+      "model": "ecoserv:electric_lamp_on"
+    },
+    "lit=false,type=13": {
+      "model": "ecoserv:electric_door"
+    },
+    "lit=true,type=13": {
+      "model": "ecoserv:electric_door_on"
+    },
+    "lit=false,type=14": {
+      "model": "ecoserv:electric_alarm"
+    },
+    "lit=true,type=14": {
+      "model": "ecoserv:electric_alarm_on"
+    },
+    "lit=false,type=15": {
+      "model": "ecoserv:electric_meter"
+    },
+    "lit=true,type=15": {
+      "model": "ecoserv:electric_meter_on"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ecoserv:atm"
+    },
+    "facing=east": {
+      "model": "ecoserv:atm",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ecoserv:atm",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ecoserv:atm",
+      "y": 270
+    }
+  }
+}
