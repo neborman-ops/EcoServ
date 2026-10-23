@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "type=0": {
+      "model": "ecoserv:marker"
+    },
+    "type=1": {
+      "model": "ecoserv:marker"
+    },
+    "type=2": {
+      "model": "ecoserv:marker"
+    },
+    "type=3": {
+      "model": "ecoserv:marker"
+    },
+    "type=4": {
+      "model": "ecoserv:marker"
+    },
+    "type=5": {
+      "model": "ecoserv:marker"
+    },
+    "type=6": {
+      "model": "ecoserv:marker"
+    },
+    "type=7": {
+      "model": "ecoserv:marker"
+    },
+    "type=8": {
+      "model": "ecoserv:marker"
+    },
+    "type=9": {
+      "model": "ecoserv:marker"
+    },
+    "type=10": {
+      "model": "ecoserv:marker"
+    },
+    "type=11": {
+      "model": "ecoserv:marker"
+    },
+    "type=12": {
+      "model": "ecoserv:marker"
+    },
+    "type=13": {
+      "model": "ecoserv:marker"
+    },
+    "type=14": {
+      "model": "ecoserv:marker"
+    },
+    "type=15": {
+      "model": "ecoserv:marker"
+    }
+  }
+}

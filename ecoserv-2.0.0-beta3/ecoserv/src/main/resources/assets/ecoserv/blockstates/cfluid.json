@@ -1,0 +1,101 @@
+{
+ "forge_marker": 1,
+ "variants": {
+  "fluid=0": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_0"
+   }
+  },
+  "fluid=1": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_1"
+   }
+  },
+  "fluid=2": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_2"
+   }
+  },
+  "fluid=3": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_3"
+   }
+  },
+  "fluid=4": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_4"
+   }
+  },
+  "fluid=5": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_5"
+   }
+  },
+  "fluid=6": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_6"
+   }
+  },
+  "fluid=7": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_7"
+   }
+  },
+  "fluid=8": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_8"
+   }
+  },
+  "fluid=9": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_9"
+   }
+  },
+  "fluid=10": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_10"
+   }
+  },
+  "fluid=11": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_11"
+   }
+  },
+  "fluid=12": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_12"
+   }
+  },
+  "fluid=13": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_13"
+   }
+  },
+  "fluid=14": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_14"
+   }
+  },
+  "fluid=15": {
+   "model": "forge:fluid",
+   "custom": {
+    "fluid": "ecoserv_fluid_15"
+   }
+  }
+ }
+}

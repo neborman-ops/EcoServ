@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Гайд по серверному моду EcoServ 1.7.0 для Minecraft 1.12.2: окна, миры и подмиры, команда и гости, порталы, ГЛИТЧ, роли, команды.">
+<title>Гайд EcoServ 1.7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap">
+<style>
+:root {
+  --bg: #f3f5f1; --surface: #ffffff; --surface-2: #e8ede6; --fg: #16201b; --muted: #536159; --faint: #7a8780; --line: #d3dbd2;
+  --accent: #0a7a53; --accent-ink: #ffffff; --accent-soft: #d8eee2;
+  --admin: #2357c2; --admin-soft: #dfe7f9;
+  --glitch: #7a3ee0; --glitch-2: #088f8b; --glitch-soft: #ece3fb;
+  --warn: #8a5900; --warn-soft: #faefd3;
+  --danger: #b2261d; --danger-soft: #fae1de;
+  --code-bg: #e8ede5; --code-fg: #15241c;
+  --shadow: 0 1px 2px rgb(20 32 26 / .07), 0 10px 28px rgb(20 32 26 / .07);
+  /* окно мода — одинаковое в обеих темах: так оно выглядит в игре */
+  --mc-bg: #0f1218; --mc-panel: #181c25; --mc-row: #212633; --mc-row-hi: #2b3243; --mc-line: #333b4d;
+  --mc-fg: #e8ecf4; --mc-muted: #98a1b3; --mc-dim: #687185; --mc-ink: #ffffff;
+  --mc-blue: #4b8bf5; --mc-green: #3fbf66; --mc-red: #e4564d; --mc-yellow: #e6b632; --mc-purple: #a46cff; --mc-cyan: #35d0d0; --mc-brown: #8a6239;
+  /* цвета & кодов Minecraft */
+  --c0:#000000; --c1:#0000aa; --c2:#00aa00; --c3:#00aaaa; --c4:#aa0000; --c5:#aa00aa; --c6:#ffaa00; --c7:#aaaaaa;
+  --c8:#555555; --c9:#5555ff; --ca:#55ff55; --cb:#55ffff; --cc:#ff5555; --cd:#ff55ff; --ce:#ffff55; --cf:#ffffff;
+  --font-body: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-head: "Unbounded", "Onest", system-ui, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", "Consolas", "Menlo", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1311; --surface: #141b18; --surface-2: #1b2420; --fg: #e3ebe6; --muted: #9eaca5; --faint: #73817a; --line: #28332e;
+    --accent: #41d195; --accent-ink: #04170f; --accent-soft: #12301f;
+    --admin: #86acff; --admin-soft: #16223a;
+    --glitch: #b993ff; --glitch-2: #3fe1d9; --glitch-soft: #231a38;
+    --warn: #f0b64e; --warn-soft: #2e230d;
+    --danger: #ff8178; --danger-soft: #361614;
+    --code-bg: #19221e; --code-fg: #d3e3da;
+    --shadow: 0 1px 2px rgb(0 0 0 / .35), 0 10px 28px rgb(0 0 0 / .3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1311; --surface: #141b18; --surface-2: #1b2420; --fg: #e3ebe6; --muted: #9eaca5; --faint: #73817a; --line: #28332e;
+  --accent: #41d195; --accent-ink: #04170f; --accent-soft: #12301f;
+  --admin: #86acff; --admin-soft: #16223a;
+  --glitch: #b993ff; --glitch-2: #3fe1d9; --glitch-soft: #231a38;
+  --warn: #f0b64e; --warn-soft: #2e230d;
+  --danger: #ff8178; --danger-soft: #361614;
+  --code-bg: #19221e; --code-fg: #d3e3da;
+  --shadow: 0 1px 2px rgb(0 0 0 / .35), 0 10px 28px rgb(0 0 0 / .3);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 1rem/1.62 var(--font-body); -webkit-font-smoothing: antialiased; }
+img, svg { max-width: 100%; }
+a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+p { margin: 0; }
+h1, h2, h3, h4 { margin: 0; text-wrap: balance; line-height: 1.2; }
+h2 { font: 600 1.55rem/1.2 var(--font-head); letter-spacing: -.01em; }
+h3 { font: 650 1.16rem/1.3 var(--font-body); }
+h4 { font: 650 1rem/1.35 var(--font-body); }
+ul, ol { margin: 0; padding-left: 1.3em; }
+li + li { margin-top: .32em; }
+strong { font-weight: 650; }
+code { font: 400 .86em/1.4 var(--font-mono); background: var(--code-bg); color: var(--code-fg); padding: .12em .4em; border-radius: 5px; overflow-wrap: anywhere; }
+code.c { cursor: copy; transition: box-shadow .15s; }
+code.c:hover { box-shadow: 0 0 0 1px var(--accent); }
+kbd { font: 600 .8em/1 var(--font-mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: .18em .42em; background: var(--surface); white-space: nowrap; }
+pre { margin: 0; font: 400 .86rem/1.6 var(--font-mono); background: var(--code-bg); color: var(--code-fg); padding: 14px 16px; border-radius: 10px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: inherit; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--accent-ink); padding: 8px 12px; border-radius: 8px; z-index: 10; }
+.skip:focus { left: 16px; }
+
+.wrap { max-width: 1200px; margin-inline: auto; padding-inline: 20px; }
+
+/* --- шапка ------------------------------------------------------------- */
+.hero { border-bottom: 1px solid var(--line); background: var(--bg); position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; opacity: .55; pointer-events: none;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 24px 24px; mask-image: linear-gradient(100deg, transparent 35%, #000 100%); -webkit-mask-image: linear-gradient(100deg, transparent 35%, #000 100%); }
+.hero-in { position: relative; display: grid; gap: 18px; padding-block: 44px 34px; }
+.brand { display: flex; align-items: center; gap: 16px; }
+.emblem { width: 56px; height: 56px; flex: none; }
+.emblem .p0 { fill: var(--accent); } .emblem .p1 { fill: var(--glitch); } .emblem .p2 { fill: var(--glitch-2); } .emblem .p3 { fill: var(--fg); opacity: .18; }
+.eyebrow { font: 600 .74rem/1.2 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 600 clamp(2rem, 5vw, 3rem)/1.05 var(--font-head); letter-spacing: -.02em; margin-top: 4px; }
+.ver { font: 500 .42em/1 var(--font-mono); vertical-align: .55em; padding: .35em .6em; border-radius: 999px; background: var(--accent); color: var(--accent-ink); letter-spacing: 0; }
+.lead { font-size: 1.12rem; max-width: 62ch; color: var(--fg); }
+.lead em { font-style: normal; color: var(--muted); }
+.quick { display: flex; flex-wrap: wrap; gap: 10px; }
+.quick a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: .94rem; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.quick a:hover { border-color: var(--accent); }
+.quick a.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.quick svg { width: 18px; height: 18px; }
+
+/* --- раскладка ---------------------------------------------------------- */
+.layout { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 56px; align-items: start; padding-block: 8px 72px; }
+main { min-width: 0; max-width: 800px; }
+.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow: auto; padding-block: 28px 16px; font-size: .9rem; }
+.toc-toggle { display: none; }
+.toc-list, .toc-list ol { list-style: none; padding: 0; margin: 0; }
+.toc-list > li { margin-top: 2px; }
+.toc-list ol { margin: 2px 0 8px 12px; border-left: 1px solid var(--line); }
+.toc-list ol li { margin: 0; }
+.toc a { display: block; padding: 5px 10px; border-radius: 7px; color: var(--muted); text-decoration: none; line-height: 1.3; }
+.toc-list ol a { padding: 3px 10px; font-size: .86rem; border-radius: 0 7px 7px 0; }
+.toc a:hover { color: var(--fg); background: var(--surface-2); }
+.toc a[aria-current="true"] { color: var(--fg); background: var(--accent-soft); font-weight: 600; }
+.toc-list ol a[aria-current="true"] { box-shadow: inset 2px 0 0 var(--accent); }
+.toc-label { font: 600 .72rem/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); padding: 0 10px 10px; }
+
+section.s { padding-block: 44px 4px; border-top: 1px solid var(--line); scroll-margin-top: 12px; }
+section.s:first-child { border-top: 0; }
+.s > * + * { margin-top: 16px; }
+.s h3 { margin-top: 34px; scroll-margin-top: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.s h4 { margin-top: 22px; }
+.s p, .s li { max-width: 68ch; }
+.sh { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sh .ico { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); flex: none; }
+.sh .ico svg { width: 20px; height: 20px; }
+.sh.admin .ico { background: var(--admin-soft); color: var(--admin); }
+.sh.glitch .ico { background: var(--glitch-soft); color: var(--glitch); }
+.intro { color: var(--muted); font-size: 1.04rem; }
+
+.tag { display: inline-flex; align-items: center; font: 600 .7rem/1 var(--font-body); letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.t-player { background: var(--accent-soft); color: var(--accent); }
+.t-admin { background: var(--admin-soft); color: var(--admin); }
+.t-new { background: var(--glitch-soft); color: var(--glitch); }
+
+.note { border-left: 3px solid var(--admin); background: var(--admin-soft); padding: 12px 16px; border-radius: 0 10px 10px 0; }
+.note > * + * { margin-top: 6px; }
+.note.ok { border-color: var(--accent); background: var(--accent-soft); }
+.note.warn { border-color: var(--warn); background: var(--warn-soft); }
+.note.glitch { border-color: var(--glitch); background: var(--glitch-soft); }
+.note b:first-child { display: block; }
+
+/* шаги */
+ol.steps { list-style: none; padding: 0; counter-reset: st; display: grid; gap: 12px; }
+ol.steps > li { counter-increment: st; position: relative; padding-left: 44px; margin: 0; min-height: 30px; }
+ol.steps > li::before { content: counter(st); position: absolute; left: 0; top: -2px; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font: 600 .9rem/1 var(--font-head); background: var(--surface); border: 1px solid var(--line); color: var(--accent); }
+
+/* что нового */
+.news { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.news > div { background: var(--surface); padding: 16px 18px; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 4px 12px; align-content: start; }
+.news svg { width: 22px; height: 22px; color: var(--accent); grid-row: span 2; margin-top: 2px; }
+.news .g svg { color: var(--glitch); }
+.news .a svg { color: var(--admin); }
+.news b { font-weight: 650; }
+.news p { color: var(--muted); font-size: .93rem; }
+
+/* таблицы */
+.tw { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 .74rem/1.3 var(--font-body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); }
+td:first-child { white-space: nowrap; }
+table.wrap1 td:first-child { white-space: normal; min-width: 9em; }
+.who { font-size: .78rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.who.adm { color: var(--admin); }
+.vs th:not(:first-child) { width: 40%; }
+.vs td:first-child { font-weight: 600; color: var(--muted); }
+
+/* окна мода (макеты) */
+figure { margin: 0; }
+.mcw { overflow-x: auto; border-radius: 14px; }
+.mc { min-width: 620px; background: var(--mc-bg); color: var(--mc-fg); border: 1px solid var(--mc-line); border-radius: 14px; overflow: hidden; font: 500 13px/1.35 var(--font-body); box-shadow: var(--shadow); }
+.mc-title { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--mc-panel); border-bottom: 1px solid var(--mc-line); }
+.mc-title b { font-weight: 650; font-size: 14px; }
+.mc-title .sub { color: var(--mc-muted); font-weight: 400; }
+.mc-title .x, .mc-title .back { color: var(--mc-muted); font-size: 15px; }
+.mc-title .x { margin-left: auto; }
+.mc-body { display: grid; grid-template-columns: 178px minmax(0, 1fr); min-height: 250px; }
+.mc-tabs { background: var(--mc-panel); border-right: 1px solid var(--mc-line); padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.mc-tab { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border-radius: 6px; color: var(--mc-muted); }
+.mc-tab.on { background: var(--mc-row-hi); color: var(--mc-fg); box-shadow: inset 2px 0 0 var(--mc-blue); }
+.mc-tabs .gap { flex: 1; min-height: 8px; }
+.mc-side { display: flex; align-items: center; gap: 8px; padding: 6px 9px; border-radius: 6px; border: 1px solid var(--mc-line); color: var(--mc-fg); }
+.mc-main { padding: 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; position: relative; }
+.mc-search { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--mc-line); border-radius: 6px; color: var(--mc-dim); background: var(--mc-bg); }
+.mc-h { color: var(--mc-muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 2px 0; }
+.mc-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--mc-row); border-radius: 7px; }
+.mc-row.hi { background: var(--mc-row-hi); }
+.mc-row .t { flex: 1; min-width: 0; }
+.mc-row small { display: block; color: var(--mc-muted); font-weight: 400; font-size: 12px; }
+.mc-ico { width: 22px; height: 22px; border-radius: 4px; flex: none; background: var(--c, var(--mc-blue)); box-shadow: inset 0 -4px 0 rgb(0 0 0 / .28), inset 0 2px 0 rgb(255 255 255 / .18); }
+.mc-ico.sm { width: 16px; height: 16px; border-radius: 3px; }
+.mc-chip { font-size: 11px; padding: 2px 7px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.mc-btn { padding: 5px 10px; border-radius: 6px; background: var(--mc-blue); color: var(--mc-ink); font-weight: 600; font-size: 12px; white-space: nowrap; }
+.mc-btn.g { background: var(--mc-green); } .mc-btn.r { background: var(--mc-red); } .mc-btn.n { background: var(--mc-row-hi); color: var(--mc-fg); border: 1px solid var(--mc-line); }
+.mc-btn.off { opacity: .45; }
+.mc-sel { display: flex; align-items: center; gap: 8px; min-width: 210px; padding: 6px 10px; background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 6px; }
+.mc-sel::after { content: "▾"; margin-left: auto; color: var(--mc-muted); }
+.mc-tog { width: 34px; height: 18px; border-radius: 9px; background: var(--mc-green); position: relative; flex: none; }
+.mc-tog::after { content: ""; position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--mc-ink); }
+.mc-tog.off { background: var(--mc-dim); } .mc-tog.off::after { right: auto; left: 2px; }
+.mc-reset { color: var(--mc-muted); font-size: 14px; }
+.mc-status { padding: 7px 14px; border-top: 1px solid var(--mc-line); color: var(--mc-muted); background: var(--mc-panel); font-size: 12px; }
+.mc-toast { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); background: var(--mc-red); color: var(--mc-ink); padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; }
+.mc-pop { position: absolute; right: 14px; top: 46px; width: 330px; background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: 9px; padding: 8px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 12px 30px rgb(0 0 0 / .45); }
+.mc-pop .mc-row { padding: 6px 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 400; }
+.mc-play { width: 22px; height: 22px; border-radius: 5px; display: grid; place-items: center; background: var(--mc-row-hi); color: var(--mc-green); font-size: 10px; flex: none; }
+.mc-ns { color: var(--mc-dim); }
+.pin { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--mc-yellow); color: var(--mc-bg); font: 700 11px/1 var(--font-body); flex: none; }
+.legend { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; font-size: .92rem; margin-top: 14px; }
+.legend li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; margin: 0; }
+.legend .pin { margin-top: 3px; }
+figcaption { font-size: .86rem; color: var(--muted); margin-top: 10px; }
+
+/* чат */
+.chat { background: var(--mc-bg); border-radius: 12px; padding: 14px 16px; font: 400 .9rem/1.7 var(--font-mono); color: var(--cf); overflow-x: auto; border: 1px solid var(--mc-line); }
+.chat div { white-space: nowrap; }
+.k6 { color: var(--c6); } .k7 { color: var(--c7); } .k8 { color: var(--c8); } .kb { color: var(--cb); } .ka { color: var(--ca); } .kc { color: var(--cc); } .kd { color: var(--cd); } .ke { color: var(--ce); } .kf { color: var(--cf); }
+.chat .lk { text-decoration: underline; text-underline-offset: 3px; }
+
+/* палитра & кодов */
+.codes { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+.codes div { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); font: 500 .78rem/1 var(--font-mono); text-align: center; }
+.codes span { display: block; height: 26px; background: var(--sw); border-bottom: 1px solid var(--line); }
+.codes b { display: block; padding: 6px 0; font-weight: 600; }
+
+/* ГЛИТЧ */
+.glitch-word { position: relative; display: inline-block; text-shadow: -2px 0 var(--glitch), 2px 0 var(--glitch-2); }
+.lens { background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 14px; overflow: hidden; }
+.lens svg { display: block; width: 100%; height: auto; }
+.lens .grid { fill: none; stroke: var(--mc-cyan); stroke-width: .9; opacity: .5; }
+.lens .ring { fill: none; stroke-width: 5; }
+.lens .halo { fill: none; stroke: var(--mc-purple); stroke-width: 18; opacity: .22; }
+.lens .hole { fill: var(--mc-bg); }
+.lens .px1 { fill: var(--mc-purple); } .lens .px2 { fill: var(--mc-cyan); } .lens .px3 { fill: var(--cd); }
+.lens .lbl { fill: var(--mc-muted); font: 500 12px var(--font-body); }
+.lens-cap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--mc-line); border-top: 1px solid var(--mc-line); }
+.lens-cap div { background: var(--mc-panel); color: var(--mc-muted); padding: 10px 12px; font-size: .82rem; }
+.lens-cap b { color: var(--mc-fg); display: block; font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) {
+  .lens .halo { animation: pulse 3.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .38; } }
+}
+.err { max-width: 420px; background: var(--mc-panel); color: var(--mc-fg); border: 1px solid var(--mc-red); border-radius: 10px; overflow: hidden; font-size: .9rem; position: relative; box-shadow: -3px 0 0 var(--glitch) inset, 3px 0 0 var(--glitch-2) inset; }
+.err h4 { margin: 0; padding: 9px 14px; background: var(--mc-red); color: var(--mc-ink); font: 600 .9rem/1.2 var(--font-mono); letter-spacing: .08em; }
+.err p { padding: 12px 14px 0; color: var(--mc-muted); max-width: none; }
+.err .ok { margin: 12px 14px 14px; display: inline-block; }
+
+/* справочник команд */
+.cmdbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--bg); padding-block: 10px; }
+.cmdbar input { flex: 1; min-width: 0; font: 500 1rem/1.2 var(--font-body); padding: 11px 14px 11px 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.cmdbar input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.cmdbar .sicon { position: absolute; margin-left: 12px; width: 18px; height: 18px; color: var(--faint); pointer-events: none; }
+.cmdbar .hint { font-size: .82rem; color: var(--muted); }
+.cmd-group > * + * { margin-top: 10px; }
+.cmd-group { margin-top: 26px; }
+.cmd-group h4 { margin-top: 0; }
+.cmds td:first-child { width: 44%; white-space: normal; }
+.cmds td:nth-child(3) { width: 1%; }
+.empty { padding: 18px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; }
+
+/* разное */
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.card > * + * { margin-top: 8px; }
+.card h4 { margin: 0; display: flex; align-items: center; gap: 8px; }
+.card h4 svg { width: 18px; height: 18px; color: var(--accent); }
+.faq details { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.faq details + details { margin-top: 8px; }
+.faq summary { cursor: pointer; padding: 14px 16px; font-weight: 600; list-style: none; display: flex; gap: 10px; align-items: baseline; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before { content: "+"; font: 600 1rem/1 var(--font-mono); color: var(--accent); width: 1ch; flex: none; }
+.faq details[open] summary::before { content: "−"; }
+.faq details > div { padding: 0 16px 16px 37px; color: var(--fg); }
+.faq details > div > * + * { margin-top: 8px; }
+.files td:first-child code { white-space: nowrap; }
+.faq-lite { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; background: var(--surface); }
+.faq-lite summary { cursor: pointer; }
+.faq-lite ul { margin-top: 10px; }
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; }
+footer .wrap { padding-block: 22px 32px; display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); transform: translateX(-50%); background: var(--fg); color: var(--bg); padding: 9px 14px; border-radius: 10px; font-size: .9rem; box-shadow: var(--shadow); z-index: 20; max-width: calc(100vw - 32px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.num { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .toc { position: static; max-height: none; padding-block: 16px 0; }
+  .toc-toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; font: 600 .95rem/1 var(--font-body); padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+  .toc-toggle::after { content: "▾"; color: var(--muted); }
+  .toc-label { display: none; }
+  .js .toc .toc-list { display: none; }
+  .js .toc.open .toc-list { display: block; margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 8px; }
+  main { max-width: none; }
+}
+@media (max-width: 640px) {
+  .news, .cols, .legend { grid-template-columns: minmax(0, 1fr); }
+  /* таблицы команд и блоков — строки карточками */
+  .cmds, .cmds tbody, .stack3, .stack3 tbody { display: block; }
+  .stack3 thead { display: none; }
+  .cmds tr, .stack3 tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 11px 13px; border-bottom: 1px solid var(--line); }
+  .cmds tr:last-child, .stack3 tr:last-child { border-bottom: 0; }
+  .cmds td, .stack3 td { display: block; padding: 0; border: 0; width: auto !important; min-width: 0 !important; white-space: normal; }
+  .cmds td:nth-child(3), .stack3 td:nth-child(3) { grid-column: 2; grid-row: 1; text-align: right; font-size: .8rem; color: var(--muted); }
+  .cmds td:nth-child(2), .stack3 td:nth-child(2) { grid-column: 1 / -1; color: var(--muted); font-size: .92rem; }
+  .stack3 td:first-child { font-weight: 600; }
+  /* команда и гость — по блокам */
+  .vs, .vs tbody { display: block; }
+  .vs thead { display: none; }
+  .vs tr { display: block; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .vs tr:last-child { border-bottom: 0; }
+  .vs td { display: block; padding: 3px 0; border: 0; white-space: normal; width: auto !important; }
+  .vs td:first-child { font: 600 .74rem/1.3 var(--font-body); letter-spacing: .06em; text-transform: uppercase; padding-bottom: 6px; }
+  .vs td[data-l]::before { content: attr(data-l) " — "; font-weight: 650; color: var(--accent); }
+  .codes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lens-cap { grid-template-columns: minmax(0, 1fr); }
+  h2 { font-size: 1.32rem; }
+  .hero-in { padding-block: 32px 26px; }
+  th, td { padding: 9px 11px; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.9 5.8 3.9 9s-1.3 6.2-3.9 9c-2.6-2.8-3.9-5.8-3.9-9S9.4 5.8 12 3z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.8a3.3 3.3 0 0 1 0 6.4M18 14.6c2 .7 3.2 2.5 3.5 5.4"/></symbol>
+    <symbol id="i-portal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><ellipse cx="12" cy="12" rx="3.6" ry="6"/><path d="M12 9.5v5"/></symbol>
+    <symbol id="i-border" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2.4"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><circle cx="12" cy="12" r="2" stroke-dasharray="0"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12.2V4.5A1.5 1.5 0 0 1 4.5 3h7.7l8.8 8.8-9.2 9.2z"/><circle cx="8" cy="8" r="1.6"/></symbol>
+    <symbol id="i-coin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.5-1-1.5-1.5-2.8-1.5-1.6 0-2.8.9-2.8 2.1 0 2.9 5.8 1.5 5.8 4.4 0 1.2-1.2 2.1-3 2.1-1.4 0-2.5-.6-3-1.6M12 6v1.7M12 16.3V18"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.3L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.7z"/><path d="M19 16.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+    <symbol id="i-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M2.5 8.5h19M8 8.5V20"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></symbol>
+    <symbol id="i-glitch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h9M15 6h6M3 10h4M10 10h11M3 14h12M18 14h3M3 18h6M12 18h9"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.2-7.5 9.8-4.4-1.6-7.5-5.2-7.5-9.8V5.8z"/><path d="M9 12l2.1 2.1L15.5 9.8"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="1.5"/><path d="M3 10.5h18M10.5 10.5v3h3v-3"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M7 9.5l3 2.5-3 2.5M12.5 15h4.5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20M8 7.5h8"/></symbol>
+    <symbol id="i-hammer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6.5l3.5 3.5M12.2 8.3L4 16.5 7.5 20l8.2-8.2"/><path d="M13 3.5l7.5 7.5-2 2L11 5.5z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.8M12 17.2v.1"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6l2 2.2h8.4A1.5 1.5 0 0 1 21 8.7v9.8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4 19.5h16"/></symbol>
+    <symbol id="i-quest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 10l2 2 4-4M9 16h6"/></symbol>
+    <symbol id="i-wand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L15 9M14 4v3M19 9h-3M17.5 5.5l-2 2M18 13l1 1M10 4.5l1 1"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">К содержимому</a>
+
+<header class="hero">
+  <div class="wrap hero-in">
+    <div class="brand">
+      <svg class="emblem" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+        <rect class="p0" x="3" y="0" width="4" height="1"/><rect class="p0" x="1" y="1" width="8" height="1"/>
+        <rect class="p0" x="0" y="2" width="10" height="6"/><rect class="p0" x="1" y="8" width="8" height="1"/><rect class="p0" x="3" y="9" width="4" height="1"/>
+        <rect class="p2" x="2" y="2" width="3" height="1"/><rect class="p2" x="1" y="3" width="3" height="2"/><rect class="p2" x="6" y="5" width="3" height="2"/><rect class="p2" x="5" y="7" width="2" height="1"/>
+        <rect class="p1" x="7" y="1" width="1" height="1"/><rect class="p1" x="8" y="3" width="2" height="1"/><rect class="p1" x="0" y="6" width="1" height="1"/>
+      </svg>
+      <div>
+        <p class="eyebrow">Серверный мод · Minecraft 1.12.2 · Forge</p>
+        <h1>EcoServ <span class="ver">1.7.0</span></h1>
+      </div>
+    </div>
+    <p class="lead">Экономика и магазин, подмиры и локальные миры команд, порталы и зоны-триггеры, роли с тегами, ГЛИТЧ-механики и автобэкапы. <em>Почти всё настраивается в окнах прямо в игре — команды нужны для консоли, RCON и тех, кто любит чат.</em></p>
+    <nav class="quick" aria-label="Быстрые ссылки">
+      <a class="primary" href="#players"><svg><use href="#i-users"/></svg>Я игрок</a>
+      <a href="#admin"><svg><use href="#i-gear"/></svg>Я админ</a>
+      <a href="#commands"><svg><use href="#i-term"/></svg>Все команды</a>
+      <a href="#quests"><svg><use href="#i-quest"/></svg>FTB Quests</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" id="toc" aria-label="Содержание">
+    <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false" aria-controls="tocList">Содержание</button>
+    <p class="toc-label">Содержание</p>
+    <ol class="toc-list" id="tocList">
+      <li><a href="#new">Что нового в 1.7.0</a></li>
+      <li><a href="#install">Установка</a></li>
+      <li><a href="#windows">Как устроены окна</a></li>
+      <li><a href="#players">Игрокам</a>
+        <ol>
+          <li><a href="#p-worlds">Миры и подмиры</a></li>
+          <li><a href="#p-team">Команда и гости</a></li>
+          <li><a href="#p-money">Деньги и обмен</a></li>
+          <li><a href="#p-roles">Роли, буфер, день рождения</a></li>
+        </ol>
+      </li>
+      <li><a href="#admin">Админам</a>
+        <ol>
+          <li><a href="#a-create">Создать подмир</a></li>
+          <li><a href="#a-subworld">Настройки подмира</a></li>
+          <li><a href="#a-local">Шаблон и локальные миры</a></li>
+          <li><a href="#a-main">Основные миры</a></li>
+          <li><a href="#a-border">Барьер у каждого мира</a></li>
+          <li><a href="#a-extras">Доп. правила</a></li>
+          <li><a href="#a-portals">Порталы и зоны</a></li>
+          <li><a href="#a-glitch">ГЛИТЧ</a></li>
+          <li><a href="#a-roles">Роли и теги</a></li>
+          <li><a href="#a-restrict">Запреты и инвентари</a></li>
+          <li><a href="#a-blocks">Блоки и предметы</a></li>
+          <li><a href="#a-config">Настройки мода</a></li>
+          <li><a href="#a-more">Сценарии, даты, награды</a></li>
+        </ol>
+      </li>
+      <li><a href="#quests">FTB Quests</a></li>
+      <li><a href="#build">Сборка из исходников</a></li>
+      <li><a href="#commands">Справочник команд</a></li>
+      <li><a href="#faq">Вопросы и ответы</a></li>
+      <li><a href="#files">Где лежат файлы</a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+
+    <!-- ================================================================== -->
+    <section class="s" id="new">
+      <div class="sh glitch"><span class="ico"><svg><use href="#i-spark"/></svg></span><h2>Что нового в 1.7.0</h2></div>
+      <div class="news">
+        <div class="a"><svg><use href="#i-window"/></svg><b>Окна вместо меню-сундуков</b><p>Вкладки слева, переключатели и поля прямо в окне, поиск, подсказки, подтверждение перед удалением.</p></div>
+        <div><svg><use href="#i-list"/></svg><b>Выбор из списка</b><p>Звуки игры и модов с прослушиванием, сетка предметов, игроки онлайн, палитра цветов — id помнить не нужно.</p></div>
+        <div class="a"><svg><use href="#i-gear"/></svg><b>Настройки мода в игре</b><p>Окно «Настройки мода»: разделы, ↺ — по умолчанию, списки построчно. Применяется сразу.</p></div>
+        <div class="a"><svg><use href="#i-border"/></svg><b>Свой барьер у каждого мира</b><p><code>/worldborder</code> меняет барьер только того мира, где ты стоишь.</p></div>
+        <div class="a"><svg><use href="#i-globe"/></svg><b>Основные миры — как подмиры</b><p>PvP, режим игры, инвентарь, мобы, приветствие, барьер и ГЛИТЧ-бездна для основного мира, ада, края и миров модов.</p></div>
+        <div><svg><use href="#i-spark"/></svg><b>Доп. правила миров</b><p>Без голода, полёт, без урона, стройка только админам, защита спавна, постоянные эффекты.</p></div>
+        <div><svg><use href="#i-users"/></svg><b>Команда и гости — понятно</b><p><code>/world add</code>, <code>/world invite</code>, <code>/world visit</code> с кнопками [Принять]/[Отказаться]. Работает и с командами FTB.</p></div>
+        <div class="a"><svg><use href="#i-portal"/></svg><b>Портал → портал</b><p>Портал ведёт к другому порталу, в том числе внутри подмира; порталы шаблона работают во всех локальных мирах.</p></div>
+        <div class="g"><svg><use href="#i-glitch"/></svg><b>ГЛИТЧ-бездна видна всем</b><p>Частицы и «битые пиксели» на месте падения, искажение пространства как у чёрной дыры, полноэкранный глитч у упавшего.</p></div>
+        <div class="a"><svg><use href="#i-tag"/></svg><b>Роли и теги окном</b><p>Пример тега в чате, команды без OP выбором из списка, права с пояснениями, сроки.</p></div>
+        <div><svg><use href="#i-coin"/></svg><b>«Можно денег?»</b><p><code>/eco take</code> у игрока — это просьба: деньги уходят, только если другой нажмёт [Дать].</p></div>
+        <div><svg><use href="#i-hammer"/></svg><b>Исправления</b><p>Подмир удаляется сразу и с подтверждением; кнопки у инвентаря двигаются сразу, и в творческом тоже.</p></div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="install">
+      <div class="sh admin"><span class="ico"><svg><use href="#i-download"/></svg></span><h2>Установка</h2><span class="tag t-admin">админам</span></div>
+      <ol class="steps">
+        <li>Положи <code>ecoserv-1.7.0.jar</code> (или <code>ecoserv-1.7.0-quests.jar</code> — сборку с FTB Quests) в папку <code>mods</code> сервера <strong>и всех игроков</strong>. Файл должен быть один и тот же: игрок с другой версией не зайдёт, а проверка сразу скажет почему.</li>
+        <li>Запусти сервер. Появятся <code>config/ecoserv/</code> (настройки, прайс, роли, запреты) и <code>world/ecoserv/</code> (балансы, подмиры, команды, порталы).</li>
+        <li>Зайди и открой инвентарь: слева вверху — <strong>кнопка-планета</strong> (миры) и <strong>монета</strong> (магазин). У админа в окне миров больше вкладок.</li>
+        <li>Админ для мода — оператор (уровень 2 и выше) или игрок с правом <code>ecoserv.admin</code>. Права работают через FTB Utilities и любые системы на Forge PermissionAPI.</li>
+      </ol>
+      <div class="note">
+        <b>Обновление с 1.6.x</b>
+        <p>Просто замени jar на сервере и у игроков. Данные подмиров, порталов и ролей подхватятся сами. Барьеры миров теперь у каждого свои — если нужен один на всех, как в ванили, выключи <code>worlds.separate_borders</code>.</p>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="windows">
+      <div class="sh"><span class="ico"><svg><use href="#i-window"/></svg></span><h2>Как устроены окна</h2><span class="tag t-player">всем</span><span class="tag t-new">новое</span></div>
+      <p class="intro">Все меню мода — окна в стиле FTB Quests. Окно рисует клиент, а что в нём показать и что делает каждая кнопка, решает сервер: права проверяются при каждом нажатии.</p>
+
+      <figure>
+        <div class="mcw">
+          <div class="mc" role="img" aria-label="Макет главного окна миров">
+            <div class="mc-title"><span class="back">‹</span><span class="mc-ico sm" style="--c:var(--mc-green)"></span><b>Миры</b><span class="sub">куда можно пойти</span><span class="x">✕</span></div>
+            <div class="mc-body">
+              <div class="mc-tabs">
+                <div class="mc-tab on"><span class="mc-ico sm" style="--c:var(--mc-green)"></span>Подмиры и миры <span class="pin">1</span></div>
+                <div class="mc-tab"><span class="mc-ico sm" style="--c:var(--mc-yellow)"></span>Команда</div>
+                <div class="mc-tab"><span class="mc-ico sm" style="--c:var(--mc-purple)"></span>Создать подмир</div>
+                <div class="mc-tab"><span class="mc-ico sm" style="--c:var(--mc-cyan)"></span>Порталы и зоны</div>
+                <div class="mc-tab"><span class="mc-ico sm" style="--c:var(--mc-brown)"></span>Основные миры</div>
+                <div class="mc-tab"><span class="mc-ico sm" style="--c:var(--mc-red)"></span>Админ-панель</div>
+                <div class="gap"></div>
+                <div class="mc-side"><span class="mc-ico sm" style="--c:var(--mc-dim)"></span>Настройки мода <span class="pin">5</span></div>
+                <div class="mc-side"><span class="mc-ico sm" style="--c:var(--mc-yellow)"></span>Роли и теги</div>
+              </div>
+              <div class="mc-main">
+                <div class="mc-search">⌕ поиск <span class="pin" style="margin-left:auto">2</span></div>
+                <div class="mc-h">Подмиры</div>
+                <div class="mc-row hi"><span class="mc-ico" style="--c:var(--mc-cyan)"></span><div class="t">Небесные острова <span class="pin">3</span><small>локальные миры · сохранений 1 из 3 · барьер 150</small></div><span class="mc-chip" style="color:var(--mc-green)">доступен</span><span class="pin">4</span><span class="mc-btn g">Войти</span><span class="mc-btn n">⚙</span></div>
+                <div class="mc-row"><span class="mc-ico" style="--c:var(--mc-red)"></span><div class="t">Вулкан<small>общий мир · за оплату</small></div><span class="mc-chip" style="color:var(--mc-yellow)">5 000</span><span class="mc-btn">Купить</span></div>
+                <div class="mc-row"><span class="mc-ico" style="--c:var(--mc-purple)"></span><div class="t">Сбой<small>GLITCH · свой мир у каждого игрока</small></div><span class="mc-chip" style="color:var(--mc-purple)">GLITCH</span><span class="mc-btn g">Войти</span></div>
+                <div class="mc-h">Обычные миры</div>
+                <div class="mc-row"><span class="mc-ico" style="--c:var(--mc-green)"></span><div class="t">overworld<small>измерение 0 · ты здесь</small></div><span class="mc-btn n">⚙</span></div>
+              </div>
+            </div>
+            <div class="mc-status">Изменения применяются сразу</div>
+          </div>
+        </div>
+        <ol class="legend">
+          <li><span class="pin">1</span><span><strong>Вкладки</strong> — разделы окна. Админ видит больше вкладок, чем игрок.</span></li>
+          <li><span class="pin">2</span><span><strong>Поиск</strong> по строкам; <kbd>Ctrl</kbd>+<kbd>F</kbd> ставит в него курсор.</span></li>
+          <li><span class="pin">3</span><span><strong>Строка</strong>: клик — подробнее, кнопки справа — действия, наведение — подсказка.</span></li>
+          <li><span class="pin">4</span><span><strong>Значки</strong>: доступен, цена, GLITCH, «ты здесь», «настроен».</span></li>
+          <li><span class="pin">5</span><span><strong>Кнопки сбоку</strong> — быстрые действия: войти, опубликовать, удалить.</span></li>
+        </ol>
+      </figure>
+
+      <h3>Управление</h3>
+      <ul>
+        <li>Переключатели, числа и текст меняются прямо в строке. <kbd>Enter</kbd> в поле — сохранить, <kbd>Esc</kbd> в поле — отменить ввод, <kbd>Esc</kbd> вне поля — закрыть окно.</li>
+        <li><strong>↺</strong> рядом с параметром возвращает значение по умолчанию. В настройках мода точка <strong>•</strong> у названия значит «изменено».</li>
+        <li>Если что-то нельзя — внизу окна появляется красное сообщение, окно не закрывается, ничего не теряется.</li>
+        <li>Удаление, покупка и другие необратимые действия сначала спрашивают подтверждение; удаление подмира — отдельным окном с перечнем того, что пропадёт.</li>
+        <li>Вопросы, которые раньше задавались в чате (название портала, кнопки, чекпоинта), теперь — маленьким окном с полем и кнопками «Готово» / «Отмена».</li>
+      </ul>
+
+      <h3 id="pickers">Выбор из списка — для тех, кто не помнит id</h3>
+      <figure>
+        <div class="mcw">
+          <div class="mc" role="img" aria-label="Макет выбора звука из списка">
+            <div class="mc-title"><span class="back">‹</span><span class="mc-ico sm" style="--c:var(--mc-cyan)"></span><b>Зона «вход_в_шахту»</b><span class="sub">что делает</span><span class="x">✕</span></div>
+            <div class="mc-body" style="grid-template-columns:150px minmax(0,1fr);min-height:236px">
+              <div class="mc-tabs"><div class="mc-tab">Что делает</div><div class="mc-tab">Условия</div><div class="mc-tab">Границы</div></div>
+              <div class="mc-main">
+                <div class="mc-row"><div class="t">Сообщение в чат<small>&amp;6Осторожно, обвалы!</small></div><span class="mc-reset">↺</span></div>
+                <div class="mc-row hi"><div class="t">Звук<small>выбери из списка или впиши id</small></div><span class="mc-sel">entity.bat.takeoff</span></div>
+                <div class="mc-row"><div class="t">«Активация» для квестов</div><span class="mc-tog"></span></div>
+                <div class="mc-pop">
+                  <div class="mc-search">⌕ cave</div>
+                  <div class="mc-row hi"><span class="mc-play">▶</span><div class="t"><span class="mc-ns">minecraft:</span>ambient.cave</div></div>
+                  <div class="mc-row"><span class="mc-play">▶</span><div class="t"><span class="mc-ns">minecraft:</span>entity.bat.takeoff</div></div>
+                  <div class="mc-row"><span class="mc-play">▶</span><div class="t"><span class="mc-ns">minecraft:</span>block.stone.break</div></div>
+                  <div class="mc-row"><span class="mc-play">▶</span><div class="t"><span class="mc-ns">имямода:</span>…</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Поле «Звук»: список всех звуков игры и установленных модов, ▶ — прослушать, клик — выбрать.</figcaption>
+      </figure>
+      <div class="cols">
+        <div class="card"><h4><svg><use href="#i-list"/></svg>Звук</h4><p>Все звуки Minecraft и модов, с поиском и прослушиванием. Звуки модов — со своей приставкой <code>имямода:</code>.</p></div>
+        <div class="card"><h4><svg><use href="#i-box"/></svg>Предмет</h4><p>Сетка всех предметов с поиском и кнопка «Из руки» — для эффектов, иконок, наград.</p></div>
+        <div class="card"><h4><svg><use href="#i-users"/></svg>Ник</h4><p>Игроки онлайн. Можно вписать ник и того, кто сейчас не в сети, если он хоть раз заходил.</p></div>
+        <div class="card"><h4><svg><use href="#i-tag"/></svg>Цвет</h4><p>Палитра <code>&amp;</code>-кодов: для тегов ролей, приветствий и сообщений.</p></div>
+      </div>
+
+      <h3>Кнопки у инвентаря</h3>
+      <p>Планета — миры, монета — магазин (<kbd>K</kbd>), рядом кнопка обмена (<kbd>J</kbd>). <kbd>Shift</kbd> + перетаскивание двигает кнопку; позиция запоминается. В 1.7 кнопки встают на новое место сразу — и в обычном, и в творческом инвентаре.</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="players">
+      <div class="sh"><span class="ico"><svg><use href="#i-users"/></svg></span><h2>Игрокам</h2><span class="tag t-player">игрокам</span></div>
+      <p class="intro">Всё ниже есть в окне миров (кнопка-планета). Команды — для тех, кому быстрее написать.</p>
+
+      <h3 id="p-worlds">Миры и подмиры</h3>
+      <ul>
+        <li><code class="c">/world</code> — список миров, клик — перейти. <code class="c">/world nether</code> — в ад: тебя вернёт туда, где ты был в этом мире в прошлый раз (или на спавн).</li>
+        <li><code class="c">/world menu</code> — окно миров, <code class="c">/world leave</code> — выйти из подмира туда, откуда пришёл, <code class="c">/world help</code> — все команды миров.</li>
+      </ul>
+      <p><strong>Подмир</strong> — отдельный мир со своими правилами. Бывает трёх видов:</p>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Вид</th><th>Как устроен</th></tr></thead>
+        <tbody>
+          <tr><td>Общий мир</td><td>Один мир на всех, как обычное измерение.</td></tr>
+          <tr><td>Локальные миры</td><td>У каждой команды своя копия мира (как skyblock). У команды может быть несколько сохранений: первое бесплатно, дальше — по цене, которую задал админ.</td></tr>
+          <tr><td>GLITCH</td><td>Свой мир у каждого <em>игрока</em>, одно сохранение. Пропавшие вещи ждут в ГЛИТЧ-сундуке.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Доступ к подмиру бывает: всегда открыт, за оплату (<code class="c">/world buy &lt;подмир&gt;</code> или кнопка «Купить»), за достижение, наградой за квест или по роли; иногда с проверкой возраста. В окне у каждого подмира видно, открыт ли он тебе, а если нет — почему.</p>
+
+      <h3 id="p-team">Команда и гости</h3>
+      <p>Это два разных способа играть вместе. <strong>Команда</strong> — постоянные напарники: у вас общие локальные миры во всех подмирах. <strong>Гость</strong> — приглашение в один конкретный мир: посмотреть или помочь построить.</p>
+      <div class="tw"><table class="vs">
+        <thead><tr><th></th><th>Команда</th><th>Гость</th></tr></thead>
+        <tbody>
+          <tr><td>Что даёт</td><td data-l="Команда">Общие локальные миры во всех подмирах</td><td data-l="Гость">Вход в один мир</td></tr>
+          <tr><td>Как позвать</td><td data-l="Команда"><code class="c">/world add &lt;ник&gt;</code> — ему придут кнопки [Принять] / [Отказаться]</td><td data-l="Гость">Встань в свой локальный мир → <code class="c">/world invite &lt;ник&gt;</code> или <code class="c">/world invite &lt;ник&gt; build</code></td></tr>
+          <tr><td>Что может</td><td data-l="Команда">Всё, как владелец</td><td data-l="Гость">С <code>build</code> — строить. Без — не ломает, не ставит, не открывает сундуки и машины, не бьёт животных</td></tr>
+          <tr><td>Как войти</td><td data-l="Команда">Как в свой мир: окно или <code>/world &lt;подмир&gt;</code></td><td data-l="Гость"><code class="c">/world visit &lt;ник&gt;</code> или окно → «Команда» → «Тебя позвали в гости»</td></tr>
+          <tr><td>Кто в списке</td><td data-l="Команда"><code class="c">/world team</code></td><td data-l="Гость"><code class="c">/world guests</code> (в своём мире)</td></tr>
+          <tr><td>Как убрать</td><td data-l="Команда"><code class="c">/world kick &lt;ник&gt;</code>; выйти самому — <code class="c">/world leaveteam</code>; распустить — <code class="c">/world disband</code></td><td data-l="Гость"><code class="c">/world uninvite &lt;ник&gt;</code> — если он в мире, его выведет</td></tr>
+        </tbody>
+      </table></div>
+      <div class="cols">
+        <div class="card">
+          <h4><svg><use href="#i-users"/></svg>Позвать в команду</h4>
+          <ol class="steps">
+            <li><code class="c">/world add Veresk</code></li>
+            <li>У Veresk в чате: <strong>[Принять]</strong> <strong>[Отказаться]</strong> — он жмёт «Принять» (или пишет <code>/world accept</code>).</li>
+            <li>Готово: ваши локальные миры теперь общие.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4><svg><use href="#i-portal"/></svg>Позвать гостя</h4>
+          <ol class="steps">
+            <li>Зайди в свой локальный мир.</li>
+            <li><code class="c">/world invite Veresk build</code> (без <code>build</code> — только смотреть).</li>
+            <li>Veresk пишет <code>/world visit &lt;твой ник&gt;</code> — и он у тебя.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="note">
+        <b>Команды FTB тоже работают</b>
+        <p>Если у вас есть команда FTB Utilities — её участники и так делят локальные миры. Если глава состоит в команде FTB, добавленные через <code>/world add</code> присоединяются к мирам этой команды. Звать можно только тех, кто хоть раз заходил на сервер.</p>
+      </div>
+
+      <h3 id="p-money">Деньги, магазин и обмен</h3>
+      <ul>
+        <li><code class="c">/eco</code> — баланс, <code class="c">/eco pay &lt;ник&gt; &lt;сумма&gt;</code> — перевод, <code class="c">/eco top</code> — богачи, <code class="c">/eco daily</code> — ежедневная награда.</li>
+        <li><strong>«Можно денег?»</strong> — <code class="c">/eco take &lt;ник&gt; &lt;сумма&gt; [зачем]</code> отправляет просьбу. Деньги переводятся, только если другой нажмёт [Дать]. Ответить: <code class="c">/eco accept [ник]</code> или <code class="c">/eco deny [ник]</code>; все просьбы — окно <code class="c">/eco requests</code>.</li>
+        <li>Магазин — кнопка-монета в инвентаре: аукцион игроков, профиль (баланс, серия входов), игроки онлайн — обмен и перевод.</li>
+        <li>Обмен вещами и деньгами: <code class="c">/trade &lt;ник&gt;</code>. Любое изменение предложения сбрасывает оба подтверждения — обмануть подменой нельзя.</li>
+      </ul>
+      <div class="chat" aria-label="Пример просьбы о деньгах в чате">
+        <div><span class="kb">Lumen_</span> <span class="k7">просит</span> <span class="ke">500</span> <span class="k7">— «на кирку»</span> <span class="ka lk">[Дать]</span> <span class="kc lk">[Отказать]</span></div>
+      </div>
+
+      <h3 id="p-roles">Роли, буфер и день рождения</h3>
+      <ul>
+        <li><code class="c">/role</code> — твои роли и до какого числа они действуют. Тег роли виден в чате перед ником.</li>
+        <li><strong>Буфер</strong>: если предмет нельзя носить в мире, куда ты перешёл, он уходит в буфер и сам вернётся в мире, где можно. Посмотреть и забрать руками — <code class="c">/stash</code>.</li>
+        <li><strong>День рождения</strong> (если включён на сервере): один раз напиши <code class="c">/birthday 15.03.2008</code> и подтверди. В этот день придёт подарок. Дату видишь только ты и админы.</li>
+      </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="admin">
+      <div class="sh admin"><span class="ico"><svg><use href="#i-gear"/></svg></span><h2>Админам</h2><span class="tag t-admin">админам</span></div>
+      <p class="intro">Всё делается в окне миров: у админа там есть «Создать подмир», «Порталы и зоны», «Основные миры» и «Админ-панель», а сбоку — «Настройки мода» и «Роли и теги».</p>
+
+      <h3 id="a-create">Создать подмир</h3>
+      <p>Вкладка «Создать подмир» — мастер по шагам:</p>
+      <ol class="steps">
+        <li><strong>Название и id.</strong> По id в него входят: <code>/world &lt;id&gt;</code>. Имена подкоманд <code>add</code>, <code>help</code>, <code>menu</code> и другие заняты.</li>
+        <li><strong>Тип мира:</strong> обычный (любой тип генерации, в том числе из модов), ад, край, плоский со своим пресетом, пустота или свой мир — папка или .zip до 2 ГБ, либо кнопка «Загрузить из игры» из твоих одиночных сохранений.</li>
+        <li><strong>Зерно и постройки.</strong></li>
+        <li><strong>Доступ:</strong> всегда, за оплату, за достижение, наградой в квестах, по роли; проверка возраста.</li>
+        <li><strong>Локальные миры:</strong> сколько сохранений у команды и их цена, барьер (начальный радиус, шаг расширения, предел).</li>
+        <li><strong>Свои квесты, пометка GLITCH, иконка.</strong></li>
+      </ol>
+      <div class="note warn">
+        <b>Подмир с локальными мирами создаётся выключенным</b>
+        <p>Построй шаблон → нажми «Опубликовать» → включи подмир. Так игроки не попадут в пустой мир.</p>
+      </div>
+
+      <h3 id="a-subworld">Настройки подмира</h3>
+      <p>Окно миров → ⚙ у подмира. Сбоку: «Войти в шаблон», «Опубликовать», «Удалить подмир».</p>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Вкладка</th><th>Что там</th></tr></thead>
+        <tbody>
+          <tr><td>Основное</td><td>Включён ли подмир, название, описание, иконка, возрождение внутри, пометка GLITCH</td></tr>
+          <tr><td>Доступ</td><td>Способ доступа, цена, роль, возраст; открыть или закрыть доступ игроку вручную</td></tr>
+          <tr><td>Локальные миры</td><td>Сколько сохранений у команды, гости, список миров команд: телепорт, «+барьер», удалить</td></tr>
+          <tr><td>Правила</td><td>Время, погода, PvP, сохранение инвентаря, мобы, огонь, грифинг мобов, режим игры при входе, приветствие, стартовый набор</td></tr>
+          <tr><td>Доп. правила</td><td><a href="#a-extras">фишки миров</a></td></tr>
+          <tr><td>Небо</td><td>Небо по типу мира, обычное, ада, края, небо любого измерения по номеру или сплошной цвет; цвет тумана</td></tr>
+          <tr><td>ГЛИТЧ-бездна</td><td><a href="#a-glitch">что видит упавший и что видят другие</a></td></tr>
+          <tr><td>Моды</td><td>Моды, выключенные в подмире: их вещи не переносятся внутрь, не ставятся, не крафтятся</td></tr>
+          <tr><td>Квесты и магазин</td><td>Главы FTB Quests подмира и свой прайс скупщика (кнопка «Скопировать общий прайс»)</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Удаление подмира</h4>
+      <p>«Удалить подмир» открывает окно подтверждения со списком того, что пропадёт. После подтверждения игроков выводит, папка подмира стирается, как только его миры выгрузятся, а имя сразу освобождается. Прайс подмира не теряется: <code>shops/&lt;подмир&gt;.json</code> переименовывается в <code>.deleted-…</code>. Из консоли: <code class="c">/subworld delete &lt;подмир&gt; confirm</code>. Пока идёт публикация шаблона или установка своего мира, удалить нельзя.</p>
+
+      <h3 id="a-local">Шаблон и локальные миры</h3>
+      <ul>
+        <li>Админы строят в <strong>шаблоне</strong> (кнопка «Войти в шаблон»), затем жмут <strong>«Опубликовать»</strong>.</li>
+        <li>Новые места сразу появляются в локальных мирах, а уже посещённые обновляются: блоки вместе с содержимым сундуков, таблички, спавнеры, рамки и стойки для брони.</li>
+        <li>Блоки игроков, оказавшиеся на месте новых блоков шаблона, уходят в <strong>ГЛИТЧ-хранилище</strong> владельца мира — вместе с вещами из контейнеров.</li>
+        <li><span class="tag t-new">новое</span> Порталы и зоны, поставленные в шаблоне, работают во всех локальных мирах команд.</li>
+        <li>Барьер локального мира расширяет награда квеста «Расширение мира» или команда <code class="c">/subworld expand &lt;подмир&gt; &lt;игрок&gt; [блоков]</code>.</li>
+      </ul>
+
+      <h3 id="a-main">Основные миры <span class="tag t-new">новое</span></h3>
+      <p>Вкладка «Основные миры» — основной мир, ад, край и миры модов. У каждого мира те же настройки, что у подмиров:</p>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Вкладка</th><th>Что там</th></tr></thead>
+        <tbody>
+          <tr><td>Правила</td><td>PvP (как на сервере / можно / нельзя), режим игры при входе (при выходе вернётся прежний, админам не меняется), сохранение инвентаря (по правилу игры / вещи остаются / выпадают), мобы (все / без враждебных / никто), приветствие на экране</td></tr>
+          <tr><td>Доп. правила</td><td><a href="#a-extras">фишки миров</a></td></tr>
+          <tr><td>Барьер</td><td>Радиус, центр, «Центр — где я стою», «Убрать барьер», урон за барьером, предупреждение</td></tr>
+          <tr><td>ГЛИТЧ-бездна</td><td>Как у подмиров</td></tr>
+        </tbody>
+      </table></div>
+      <p>Изменения применяются сразу и хранятся в <code>world/ecoserv/world_settings.json</code>.</p>
+
+      <h3 id="a-border">Барьер у каждого мира <span class="tag t-new">новое</span></h3>
+      <p>В ванили у ада, края и миров модов барьер основного мира, а <code>/worldborder</code> меняет его везде. Теперь у каждого мира свой барьер:</p>
+      <ul>
+        <li><code class="c">/worldborder set 2000</code> — барьер мира, где ты стоишь (2000 — это <em>диаметр</em>, то есть радиус 1000).</li>
+        <li><code class="c">/worldborder in nether set 2000</code> — барьер другого мира; <code class="c">/worldborder get</code> — текущий размер.</li>
+        <li>В окне — «Основные миры» → мир → «Барьер»; там задаётся <em>радиус</em>.</li>
+        <li>Барьер основного мира хранится, как раньше, в <code>level.dat</code>, остальных — в <code>world_settings.json</code>. Каждому игроку приходит барьер его мира.</li>
+      </ul>
+      <div class="note">
+        <b>Вернуть как в ванили</b>
+        <p>«Настройки мода» → раздел worlds → <code>separate_borders</code> выключить. Барьеры подмиров остаются своими в любом случае.</p>
+      </div>
+
+      <h3 id="a-extras">Доп. правила миров</h3>
+      <p>Вкладка «Доп. правила» — и у подмиров, и у основных миров.</p>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Правило</th><th>Что делает</th></tr></thead>
+        <tbody>
+          <tr><td>Без голода</td><td>Шкала сытости не убывает</td></tr>
+          <tr><td>Полёт для всех</td><td>Летать можно и в выживании, как в творческом</td></tr>
+          <tr><td>Без урона от падения</td><td>Падение не ранит</td></tr>
+          <tr><td>Без урона вообще</td><td>Игроки не получают урона (кроме бездны и <code>/kill</code>)</td></tr>
+          <tr><td>Строят только админы</td><td>Остальные не ломают и не ставят блоки</td></tr>
+          <tr><td>Защита спавна</td><td>Радиус в блоках вокруг точки появления, где ломать и ставить могут только админы</td></tr>
+          <tr><td>Нельзя выбрасывать предметы</td><td>Выброшенный предмет остаётся у игрока</td></tr>
+          <tr><td>Постоянные эффекты</td><td>Любые эффекты с уровнем, названия на языке игрока; держатся, пока игрок в мире</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 id="a-portals">Порталы и зоны-триггеры</h3>
+      <ol class="steps">
+        <li>Возьми <strong>палочку порталов</strong> (или палочку триггера для зоны) из творческой вкладки мода.</li>
+        <li>ПКМ по первому углу, ПКМ по второму.</li>
+        <li>В окошке впиши название (буквы, цифры, <code>_</code> и <code>-</code>) → «Готово».</li>
+        <li>Настрой в окне: «Порталы и зоны» → портал → «Настроить».</li>
+      </ol>
+      <figure>
+        <div class="mcw">
+          <div class="mc" role="img" aria-label="Макет настройки портала">
+            <div class="mc-title"><span class="back">‹</span><span class="mc-ico sm" style="--c:var(--mc-purple)"></span><b>Портал «в_город»</b><span class="sub">куда ведёт</span><span class="x">✕</span></div>
+            <div class="mc-body" style="grid-template-columns:150px minmax(0,1fr)">
+              <div class="mc-tabs"><div class="mc-tab on">Куда ведёт</div><div class="mc-tab">Что делает</div><div class="mc-tab">Условия</div><div class="mc-tab">Границы</div></div>
+              <div class="mc-main">
+                <div class="mc-row"><div class="t">Портал включён</div><span class="mc-tog"></span></div>
+                <div class="mc-row"><div class="t">Куда ведёт<small>мир, подмир или другой портал</small></div><span class="mc-sel"><span class="mc-ico sm" style="--c:var(--mc-cyan)"></span>К другому порталу</span></div>
+                <div class="mc-row"><div class="t">Портал назначения<small>игрок появится у его выхода</small></div><span class="mc-sel">из_города</span></div>
+                <div class="mc-row hi"><span class="mc-ico" style="--c:var(--mc-cyan)"></span><div class="t">Связь с «из_города»<small>обратно ведёт: подмир «Небесные острова»</small></div><span class="mc-btn">Связать в обе стороны</span></div>
+                <div class="mc-h">Выход у этого портала</div>
+                <div class="mc-row"><span class="mc-ico" style="--c:var(--mc-brown)"></span><div class="t">Перед порталом (автоматически)<small>-142 71 388</small></div><span class="mc-btn">Выход = где я стою</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>Портал → портал: игрок выходит у выбранного портала. Если тот стоит в подмире с локальными мирами — в своём мире команды.</figcaption>
+      </figure>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Вкладка</th><th>Что настраивается</th></tr></thead>
+        <tbody>
+          <tr><td>Куда ведёт</td><td>Мир; подмир (общий мир или локальный мир команды игрока, с проверкой доступа); <strong>другой портал</strong>. Для мира — точка появления, «где был в прошлый раз» или заданная точка («Точка = где я стою»). Свой выход у портала — «Выход = где я стою», по умолчанию — перед порталом.</td></tr>
+          <tr><td>Что делает</td><td>Сообщение в чат, заголовок на экране, звук (выбор из списка), команды от сервера, сценарий, «Активация» для квестов. Когда срабатывает: каждый вход, один раз, с паузой.</td></tr>
+          <tr><td>Условия</td><td>Кому можно: роли; проверка возраста (<code>18</code>, <code>&gt;=16</code>, <code>&lt;=12</code>, <code>14-17</code>); сообщение, если нельзя.</td></tr>
+          <tr><td>Границы</td><td>Где стоит; «Взять новое выделение палочкой»; переименовать. Сбоку — телепорт, «Проверить на себе», удалить.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 id="a-glitch"><span><span class="glitch-word">ГЛИТЧ</span>: бездна, сундук и хранилище</span></h3>
+      <p><strong>ГЛИТЧ-бездна</strong> — если игрок упал ниже заданной высоты (по умолчанию Y&nbsp;−16), его возвращает на точку появления мира, а вокруг происходит «сбой». Включается во вкладке «ГЛИТЧ-бездна» у подмира или основного мира.</p>
+      <figure class="lens" id="lens">
+        <svg viewBox="0 0 640 300" role="img" aria-label="Схема искажения пространства вокруг точки падения">
+          <defs>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--mc-purple)"/><stop offset=".55" style="stop-color:var(--cd)"/><stop offset="1" style="stop-color:var(--mc-cyan)"/></linearGradient>
+            <radialGradient id="holeGrad"><stop offset=".72" style="stop-color:var(--mc-bg)"/><stop offset="1" style="stop-color:var(--mc-bg);stop-opacity:0"/></radialGradient>
+          </defs>
+          <path class="grid" id="lensGrid" d=""/>
+          <g id="lensPx"></g>
+          <circle class="halo" cx="320" cy="150" r="64"/>
+          <circle cx="320" cy="150" r="64" fill="url(#holeGrad)"/>
+          <circle class="hole" cx="320" cy="150" r="50"/>
+          <circle class="ring" cx="320" cy="150" r="62" stroke="url(#ringGrad)"/>
+        </svg>
+        <div class="lens-cap">
+          <div><b>Горизонт</b>тёмный центр на месте падения</div>
+          <div><b>Кольцо фотонов</b>светящийся пурпурный ободок</div>
+          <div><b>Линза и закрутка</b>фон вокруг изгибается и скручивается, с радужным изломом</div>
+        </div>
+      </figure>
+      <div class="cols">
+        <div class="card">
+          <h4><svg><use href="#i-users"/></svg>Что видят другие</h4>
+          <ul>
+            <li>Воронку из частиц портала, пурпурно-бирюзовые «битые пиксели», драконье дыхание и вспышку искр там, где игрок упал.</li>
+            <li>Столб «битых пикселей» там, где он появился. Звуки слышны рядом.</li>
+            <li><strong>Искажение пространства</strong> как у чёрной дыры — около 2,5&nbsp;секунды, в радиусе 48 блоков у тех, кто смотрит в ту сторону.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4><svg><use href="#i-glitch"/></svg>Что видит упавший</h4>
+          <ul>
+            <li>Глитч на весь экран: срывы строк, сдвиг цветовых каналов, пикселизация, развёртка.</li>
+            <li>Глитч-текстуры по краям экрана.</li>
+            <li>Окно <strong>ENGINE ERROR</strong> с текстом и кнопкой на его языке.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="err" aria-label="Пример окна ENGINE ERROR">
+        <h4>ENGINE ERROR</h4>
+        <p>Ошибка расчёта координат: позиция игрока вышла за допустимые пределы мира (Y &lt; 0). Выполнен аварийный возврат на точку возрождения.</p>
+        <span class="mc-btn ok">ОК</span>
+      </div>
+      <h4>Настройки бездны</h4>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Параметр</th><th>Что значит</th></tr></thead>
+        <tbody>
+          <tr><td>Высота срабатывания</td><td>Ниже какой высоты срабатывает (по умолчанию −16)</td></tr>
+          <tr><td>Частицы и «битые» пиксели</td><td>Эффект для всех рядом</td></tr>
+          <tr><td>Искажение пространства</td><td>Линза «чёрная дыра» для всех рядом</td></tr>
+          <tr><td>Глитч на весь экран</td><td>Экранный эффект у упавшего</td></tr>
+          <tr><td>Глитч-текстуры по краям</td><td>Своя картинка — ресурспаком: <code>assets/ecoserv/textures/gui/glitch_overlay.png</code></td></tr>
+          <tr><td>Исчезновение после галочки</td><td>Включено — эффекты держатся до «ОК» и гаснут через заданные секунды; выключено — гаснут сами через заданное время</td></tr>
+          <tr><td>Окно ENGINE ERROR</td><td>Заголовок, текст и кнопка на любых языках (<code>ru_ru</code>, <code>en_us</code>…): игрок видит свой язык</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note glitch">
+        <b>Если искажения не видно</b>
+        <p>Искажение и полноэкранный глитч — шейдеры. Если у игрока они не работают (старая видеокарта, OptiFine с Fast Render или шейдерпаком), он всё равно увидит частицы, а упавший — фильтр эндермена, как раньше.</p>
+      </div>
+      <h4>ГЛИТЧ-сундук и палка GLITCH SELECT</h4>
+      <p>ГЛИТЧ-сундук ставится в шаблоне GLITCH-мира; каждый игрок видит в нём <strong>свои</strong> пропавшие вещи. Палка GLITCH SELECT (ПКМ по сундуку) выбирает, что туда попадает: блоки, снесённые публикацией шаблона; вещи, выброшенные в бездну подмиров; выпавшее при смерти в GLITCH-мире; выданное админом (<code class="c">/subworld glitch give &lt;ник&gt;</code> — предмет из руки).</p>
+
+      <h3 id="a-roles">Роли и теги</h3>
+      <div class="note ok">
+        <b>Роль — это набор прав с табличкой</b>
+        <p>Выдал игроку роль — у него появился тег в чате и всё, что роль разрешает. Снял роль или истёк срок — всё пропало само.</p>
+      </div>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Что даёт роль</th><th>Как задать</th></tr></thead>
+        <tbody>
+          <tr><td>Тег в чате и цвет</td><td><code class="c">/role set vip prefix &amp;6[VIP]</code>, <code class="c">/role set vip color &amp;6</code></td></tr>
+          <tr><td>Команды без OP</td><td><code class="c">/role cmd vip add tp</code> — в окне выбор из всех команд сервера</td></tr>
+          <tr><td>Права мода</td><td><code class="c">/role perm vip add ecoserv.world</code> — в окне с пояснениями</td></tr>
+          <tr><td>Миры для /world</td><td><code class="c">/role world vip add nether</code></td></tr>
+          <tr><td>Телепорт по карте Xaero</td><td><code class="c">/role set vip xaero on</code> — только себя и только по координатам</td></tr>
+          <tr><td>Множитель денежных наград</td><td><code class="c">/role set vip multiplier 1.5</code></td></tr>
+          <tr><td>Приоритет</td><td><code class="c">/role set vip priority 10</code> — чей тег показывать, если ролей несколько</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Роль VIP за минуту</h4>
+      <pre><code>/role create vip VIP
+/role set vip prefix &amp;6[VIP]
+/role cmd vip add home
+/role give Veresk vip 30d</code></pre>
+      <div class="chat" aria-label="Пример тега в чате">
+        <div><span class="k6">[VIP]</span> <span class="kf">Veresk:</span> <span class="kf">всем привет!</span></div>
+        <div><span class="k7">Lumen_:</span> <span class="kf">о, новый тег</span></div>
+      </div>
+      <ul>
+        <li>Окно «Роли и теги» — кнопка сбоку в окне миров или <code class="c">/role menu</code>. Там: обзор, вкладка на каждую роль (пример сообщения, цвет, приоритет, команды, права, миры, у кого роль и до какого числа, выдать на срок или снять) и «Роли игрока» — найти игрока и поменять его роли.</li>
+        <li>Срок выдачи: <code>30</code> (дней), <code>30d</code>, <code>12h</code>, <code>90m</code>; без срока — навсегда.</li>
+        <li>Если стоит FTB Utilities с рангами, доступ к командам сначала проверяют его ранги.</li>
+      </ul>
+      <h4>Цвета: <code>&amp;</code>-коды</h4>
+      <div class="codes" aria-label="Палитра цветовых кодов">
+        <div><span style="--sw:var(--c0)"></span><b>&amp;0</b></div><div><span style="--sw:var(--c1)"></span><b>&amp;1</b></div><div><span style="--sw:var(--c2)"></span><b>&amp;2</b></div><div><span style="--sw:var(--c3)"></span><b>&amp;3</b></div>
+        <div><span style="--sw:var(--c4)"></span><b>&amp;4</b></div><div><span style="--sw:var(--c5)"></span><b>&amp;5</b></div><div><span style="--sw:var(--c6)"></span><b>&amp;6</b></div><div><span style="--sw:var(--c7)"></span><b>&amp;7</b></div>
+        <div><span style="--sw:var(--c8)"></span><b>&amp;8</b></div><div><span style="--sw:var(--c9)"></span><b>&amp;9</b></div><div><span style="--sw:var(--ca)"></span><b>&amp;a</b></div><div><span style="--sw:var(--cb)"></span><b>&amp;b</b></div>
+        <div><span style="--sw:var(--cc)"></span><b>&amp;c</b></div><div><span style="--sw:var(--cd)"></span><b>&amp;d</b></div><div><span style="--sw:var(--ce)"></span><b>&amp;e</b></div><div><span style="--sw:var(--cf)"></span><b>&amp;f</b></div>
+      </div>
+      <p>Ещё: <code>&amp;l</code> — жирный, <code>&amp;o</code> — курсив, <code>&amp;n</code> — подчёркнутый, <code>&amp;r</code> — сброс.</p>
+
+      <h3 id="a-restrict">Запреты предметов, моды по мирам, инвентари</h3>
+      <ul>
+        <li><strong>Запреты предметов:</strong> «Админ-панель» → «Запреты предметов по мирам» или <code class="c">/ecoadmin restrict</code> с предметом в руке. Для каждого предмета отдельно: крафт, использование, установка, носить с собой. Где: везде, только в выбранных мирах, везде кроме.</li>
+        <li><strong>Моды по мирам:</strong> <code class="c">/ecoadmin restrict mods</code> — выключить мод целиком в нужных мирах (вещи уходят в буфер, машины не открываются).</li>
+        <li><strong>Раздельные инвентари:</strong> «Настройки мода» → раздел инвентарей: группы миров со своим инвентарём, бронёй, опытом и эндер-сундуком. Что сохранено у игрока — <code class="c">/ecoadmin inventories &lt;ник&gt;</code>.</li>
+      </ul>
+
+      <h3 id="a-blocks">Блоки и предметы</h3>
+      <div class="tw"><table class="wrap1 stack3">
+        <thead><tr><th>Блок / предмет</th><th>Что делает</th><th>Как получить</th></tr></thead>
+        <tbody>
+          <tr><td>Торговый терминал</td><td>Скупщик: продаёт положенное по прайсу приёмами (например, 64 шт = 58 000), деньги — владельцу</td><td>Крафт</td></tr>
+          <tr><td>Склад продавца</td><td>Товар для аукциона; автоматика только кладёт, и только в заднюю грань</td><td>Крафт</td></tr>
+          <tr><td>Блок продажи</td><td>Торговый автомат с кассой; ломается вместе с содержимым, как шалкер</td><td>Крафт</td></tr>
+          <tr><td>Датчик игрока</td><td>Редстоун-сигнал, когда рядом игрок (любой или с ролью)</td><td>Крафт</td></tr>
+          <tr><td>Палочка заполнения</td><td>ПКМ по двум углам, Shift+ПКМ — заполнить пустоту блоком из второй руки (расход ×2)</td><td>Крафт</td></tr>
+          <tr><td>Чекпоинт</td><td>Наступил — точка возрождения в этом мире</td><td>Вкладка мода</td></tr>
+          <tr><td>Сундук добычи</td><td>У каждого игрока своя копия содержимого, один раз или с пополнением</td><td>Вкладка мода</td></tr>
+          <tr><td>Барьер ролей</td><td>Пропускает игроков с выбранными ролями (или всех, кроме них)</td><td>Вкладка мода</td></tr>
+          <tr><td>ГЛИТЧ-сундук, GLITCH SELECT</td><td>Свои пропавшие вещи у каждого игрока; выбор, что туда попадает</td><td>Вкладка мода</td></tr>
+          <tr><td>Палочки порталов и триггера</td><td>Создать портал или зону</td><td>Вкладка мода</td></tr>
+          <tr><td>Палка активации</td><td>Название кнопке или рычагу → «Активация» в квестах</td><td>Вкладка мода</td></tr>
+          <tr><td>BLOCK DESTROY (DANGER)</td><td>Защищённые зоны, где ломать может только оператор в креативе</td><td>Вкладка мода</td></tr>
+        </tbody>
+      </table></div>
+      <p>Блоки, которые ставят только админы, настраиваются окном: ПКМ пустой рукой (у сундука добычи — Shift+ПКМ).</p>
+      <details class="faq-lite">
+        <summary><strong>Рецепты крафта</strong></summary>
+        <ul>
+          <li>Торговый терминал: <code>железо золото железо / железо сундук железо / железо редстоун железо</code></li>
+          <li>Склад продавца: <code>доски золото доски / доски сундук доски / доски воронка доски</code></li>
+          <li>Блок продажи: <code>железо изумруд железо / стекло сундук стекло / железо редстоун железо</code></li>
+          <li>Датчик игрока: <code>железо редстоун железо / редстоун око_Эндера редстоун / железо редстоун железо</code></li>
+          <li>Палочка заполнения: <code>око алмазный_блок око / алмазный_блок звезда_Незера алмазный_блок / стержень алмазный_блок стержень</code></li>
+        </ul>
+      </details>
+
+      <h3 id="a-config">Настройки мода в игре</h3>
+      <p>Окно миров → «Настройки мода» (или <code class="c">/ecoadmin config</code>). Разделы слева, параметры справа: переключатели, числа, текст, списки построчно. ↺ — значение по умолчанию. Всё применяется сразу и пишется в <code>config/ecoserv/ecoserv.cfg</code>.</p>
+      <div class="tw"><table class="wrap1">
+        <thead><tr><th>Параметр</th><th>Зачем</th></tr></thead>
+        <tbody>
+          <tr><td><code>worlds.separate_borders</code></td><td>Свой барьер у каждого мира (по умолчанию включено)</td></tr>
+          <tr><td><code>worlds.player_worlds</code></td><td>Куда игроки могут через <code>/world</code> (<code>*</code> — везде)</td></tr>
+          <tr><td><code>worlds.cooldown_seconds</code></td><td>Пауза между телепортами</td></tr>
+          <tr><td><code>general.require_client_mod</code></td><td>Без мода на сервер не зайти</td></tr>
+          <tr><td><code>general.show_worlds_button</code></td><td>Кнопка-планета в инвентаре</td></tr>
+          <tr><td><code>subworlds.dim_id_start</code></td><td>С какого номера выдавать измерения подмирам (1000)</td></tr>
+          <tr><td><code>restrictions.admins_bypass</code></td><td>Админы не подчиняются запретам предметов</td></tr>
+        </tbody>
+      </table></div>
+      <p>Из консоли и RCON: <code class="c">/ecoadmin config list &lt;раздел&gt;</code>, <code class="c">/ecoadmin config set &lt;раздел&gt; &lt;ключ&gt; &lt;значение&gt;</code>, <code>get</code>, <code>reset</code>.</p>
+
+      <h3 id="a-more">Сценарии, даты, награды</h3>
+      <ul>
+        <li><strong>Сценарии</strong> — цепочки шагов с паузами: <code>msg</code>, <code>title</code>, <code>sound</code>, <code>wait 2s</code>, <code>cmd</code>, <code>tp</code>, <code>tpworld</code>, <code>activate</code>, <code>require role vip</code>… <code class="c">/script create intro</code>, <code class="c">/script add intro title &amp;6Привет|&amp;7мир</code>, <code class="c">/script run intro &lt;игрок&gt;</code>. Запускаются зоной, кнопкой или командой.</li>
+        <li><strong>Даты и дни рождения:</strong> «Админ-панель» → «Даты и дни рождения» (<code class="c">/ecoadmin dates</code>) — подарки раз в год и объявления.</li>
+        <li><strong>Награды за онлайн и ежедневные:</strong> <code class="c">/ecoadmin rewards</code>.</li>
+      </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="quests">
+      <div class="sh admin"><span class="ico"><svg><use href="#i-quest"/></svg></span><h2>FTB Quests</h2><span class="tag t-admin">админам</span></div>
+      <p>Мод работает и без FTB Quests. Но если собрать его вместе с FTB Quests, в редакторе квестов появятся новые условия и награды.</p>
+      <div class="cols">
+        <div class="card"><h4><svg><use href="#i-quest"/></svg>Условия</h4><ul><li><strong>Активация</strong> — кнопка, рычаг, зона-триггер, сценарий или <code>/activator fire</code></li><li><strong>Скрытое достижение</strong> — квест виден как «???», пока не выполнен</li><li><strong>Возраст</strong> — по дню рождения</li></ul></div>
+        <div class="card"><h4><svg><use href="#i-spark"/></svg>Награды</h4><ul><li><strong>Роль</strong> — навсегда или на N дней</li><li><strong>Доступ к подмиру</strong> — игроку и его команде</li><li><strong>Расширение мира</strong> — барьер локального мира</li></ul><p>Плюс «свои квесты» подмира: в его мирах книга показывает только его главы.</p></div>
+      </div>
+      <h3>Какие jar нужны</h3>
+      <p>Перед сборкой положи в папку <code>libs/</code> проекта три файла из папки <code>mods</code> своего сервера:</p>
+      <div class="tw"><table>
+        <thead><tr><th>Файл</th><th>Версия</th></tr></thead>
+        <tbody>
+          <tr><td><code>FTBQuests-*.jar</code></td><td>для 1.12.2, проверено с 1202.9.0.x</td></tr>
+          <tr><td><code>FTBLib-*.jar</code></td><td>5.4.x</td></tr>
+          <tr><td><code>ItemFilters-*.jar</code></td><td>1.0.x</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li>В начале сборки будет строка <code>[EcoServ] libs/: FTB Quests найден</code>, а готовый файл назовётся <code>ecoserv-1.7.0-quests.jar</code>. В сам мод эти jar не попадают.</li>
+        <li><strong>Сервер и все игроки должны ставить один и тот же jar</strong>: список условий FTB Quests передаётся клиенту, и клиент без них на сервер не зайдёт.</li>
+        <li>Без этих файлов доступ «наградой в квестах» выдаётся командой <code class="c">/subworld unlock &lt;подмир&gt; &lt;игрок&gt;</code>, а деньги — наградой-командой <code>/eco give @p 500</code>.</li>
+      </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="build">
+      <div class="sh admin"><span class="ico"><svg><use href="#i-hammer"/></svg></span><h2>Сборка из исходников</h2><span class="tag t-admin">админам</span></div>
+      <p>Нужны <strong>JDK 8</strong> и <strong>Gradle 4.10.3</strong> (ForgeGradle 2.3 не работает с новыми версиями).</p>
+      <pre><code># свой gradle 4.10.3
+gradle build
+
+# или обёртка (один раз, нужен интернет)
+gradle wrapper --gradle-version 4.10.3
+gradlew build</code></pre>
+      <p>Готовый jar — в <code>build/libs/</code>. В <code>gradle.properties</code> стоит <code>forge_version=14.23.5.2847</code>: для 2859/2860 на maven нет userdev, но собранный мод работает на любом Forge 1.12.2 начиная с 2768.</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="commands">
+      <div class="sh"><span class="ico"><svg><use href="#i-term"/></svg></span><h2>Справочник команд</h2></div>
+      <p class="intro">Нажми на команду — она скопируется. <span class="who">все</span> — любой игрок, <span class="who adm">админ</span> — только админы; команды админов работают и из консоли, и из RCON.</p>
+      <div class="cmdbar">
+        <svg class="sicon"><use href="#i-search"/></svg>
+        <input id="cmdq" type="search" placeholder="Найти: invite, барьер, роль, деньги…" autocomplete="off" aria-label="Поиск по командам">
+      </div>
+      <p class="empty" id="cmdNone" hidden>Ничего не нашлось. Попробуй другое слово или <code>/world help</code> в игре.</p>
+
+      <div class="cmd-group">
+        <h4>Миры, команда, гости</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/world</code></td><td>Список миров, клик — перейти</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world &lt;мир&gt;</code></td><td>Перейти в мир или подмир (в свой локальный мир)</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world menu</code></td><td>Окно миров (то же, что кнопка-планета)</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world help</code></td><td>Все команды миров, команды и гостей</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world leave</code></td><td>Выйти из подмира туда, откуда пришёл</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world buy &lt;подмир&gt;</code></td><td>Купить доступ к подмиру</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world add &lt;ник&gt;</code></td><td>Позвать в свою команду (он должен согласиться)</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world accept [ник]</code> · <code class="c">/world deny [ник]</code></td><td>Принять или отклонить приглашение в команду</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world team</code></td><td>Кто в команде, входящие приглашения</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world kick &lt;ник&gt;</code></td><td>Убрать из команды</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world leaveteam</code> · <code class="c">/world disband</code></td><td>Выйти из команды · распустить команду</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world invite &lt;ник&gt; [build]</code></td><td>Позвать гостя в мир, где стоишь; <code>build</code> — может строить</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world uninvite &lt;ник&gt;</code></td><td>Выгнать гостя</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world guests</code></td><td>Гости мира, где стоишь</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world visit [ник]</code></td><td>Войти в мир игрока, куда тебя позвали</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/world &lt;мир&gt; &lt;игрок&gt;</code></td><td>Отправить игрока в мир</td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Деньги, магазин, обмен</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/eco</code></td><td>Баланс (также <code>/money</code>, <code>/bal</code>)</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/eco pay &lt;ник&gt; &lt;сумма&gt;</code></td><td>Перевести деньги</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/eco take &lt;ник&gt; &lt;сумма&gt; [зачем]</code></td><td>Попросить денег: у другого кнопки [Дать] / [Отказать]</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/eco accept [ник]</code> · <code class="c">/eco deny [ник]</code></td><td>Дать или отказать на просьбу</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/eco requests</code></td><td>Окно просьб: входящие, свои, новая</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/eco top</code> · <code class="c">/eco daily</code></td><td>Богачи · ежедневная награда</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/eco give|set &lt;ник&gt; &lt;сумма&gt;</code></td><td>Выдать · установить баланс</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/eco take &lt;ник&gt; &lt;сумма&gt; force</code></td><td>Списать без спроса (из консоли — без <code>force</code>)</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/trade &lt;ник&gt;</code></td><td>Обмен; <code>/trade accept|deny|cancel</code></td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/shop</code></td><td>Магазин; <code>/shop list [фильтр]</code> — прайс</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/shop price &lt;приём&gt; &lt;цена&gt; [категория]</code></td><td>Цена предмету в руке: <code>/shop price 64 58000</code>; <code>/shop remove</code> — убрать</td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Роли и теги</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/role</code></td><td>Мои роли и сроки</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/role list</code></td><td>Все роли</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/role menu</code></td><td>Окно «Роли и теги»</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role create &lt;id&gt; [название]</code></td><td>Создать роль</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role give &lt;ник&gt; &lt;роль&gt; [срок]</code></td><td>Выдать: срок <code>30</code>, <code>30d</code>, <code>12h</code>, <code>90m</code></td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role take &lt;ник&gt; &lt;роль&gt;</code></td><td>Снять роль</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role player &lt;ник&gt;</code> · <code class="c">/role info &lt;роль&gt;</code></td><td>Роли игрока · подробно о роли</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role set &lt;роль&gt; &lt;поле&gt; &lt;значение&gt;</code></td><td>Поля: <code>name</code>, <code>color</code>, <code>prefix</code>, <code>priority</code>, <code>xaero</code>, <code>multiplier</code>, <code>description</code></td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role cmd|perm|world &lt;роль&gt; add|remove &lt;что&gt;</code></td><td>Команды без OP · права мода · миры для /world</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/role delete &lt;роль&gt;</code> · <code class="c">/role reload</code></td><td>Удалить роль · перечитать roles.json</td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Подмиры</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/subworld list</code> · <code class="c">/subworld info &lt;подмир&gt;</code></td><td>Список · подробно</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld menu</code></td><td>Окно миров</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld tp &lt;подмир&gt;</code></td><td>Зайти (в шаблон, если локальные миры)</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld publish &lt;подмир&gt;</code></td><td>Опубликовать шаблон</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld enable|disable &lt;подмир&gt;</code></td><td>Включить · выключить</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld unlock|lock &lt;подмир&gt; &lt;игрок&gt;</code></td><td>Открыть · закрыть доступ вручную</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld expand &lt;подмир&gt; &lt;игрок&gt; [блоков]</code></td><td>Расширить барьер локального мира</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld glitch give|list &lt;игрок&gt;</code></td><td>В ГЛИТЧ-хранилище предмет из руки · посмотреть</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld uploads</code></td><td>Свои миры, готовые к загрузке</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/subworld delete &lt;подмир&gt; confirm</code></td><td>Удалить подмир</td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Барьер</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/worldborder set &lt;диаметр&gt; [секунд]</code></td><td>Размер барьера мира, где стоишь</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/worldborder add &lt;блоков&gt; [секунд]</code></td><td>Увеличить или уменьшить</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/worldborder center &lt;x&gt; &lt;z&gt;</code></td><td>Центр</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/worldborder damage amount|buffer &lt;число&gt;</code></td><td>Урон за барьером · запас без урона</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/worldborder warning distance|time &lt;число&gt;</code></td><td>Когда краснеет экран</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/worldborder get</code></td><td>Текущий размер</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/worldborder in &lt;мир&gt; …</code></td><td>Любая из команд выше — для другого мира</td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Порталы, зоны, сценарии, кнопки</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/portal list</code> · <code class="c">/portal menu &lt;имя&gt;</code></td><td>Порталы · окно настройки портала</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/portal info|tp|test|remove &lt;имя&gt;</code></td><td>Подробно · телепорт · проверить на себе · удалить</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/trigger list</code> · <code class="c">/trigger menu &lt;имя&gt;</code></td><td>Зоны-триггеры (те же подкоманды, плюс <code>set</code>, <code>cmd</code>, <code>reset</code>)</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/script list</code> · <code class="c">/script show &lt;имя&gt;</code></td><td>Сценарии: <code>create</code>, <code>add</code>, <code>insert</code>, <code>set</code>, <code>remove</code>, <code>run</code>, <code>stop</code></td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/activator list</code></td><td>Кнопки и рычаги с названиями: <code>remove</code>, <code>command</code>, <code>tp</code>, <code>test</code></td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/activator fire &lt;игрок&gt; &lt;название&gt;</code></td><td>Засчитать «Активацию» (из бота или панели)</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/zone list</code></td><td>Зоны BLOCK DESTROY: <code>info</code>, <code>remove</code>, <code>vert</code>, <code>type</code>, <code>name</code>, <code>tp</code></td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Администрирование</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/ecoadmin config</code></td><td>Окно «Настройки мода»; из консоли — <code>list|get|set|reset</code></td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin restrict</code> · <code class="c">/ecoadmin restrict mods</code></td><td>Запрет предмета в руке · моды по мирам</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin dates</code> · <code class="c">/ecoadmin rewards</code></td><td>Даты и дни рождения · награды</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin inventories [ник]</code></td><td>Раздельные инвентари</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin info</code> · <code class="c">/ecoadmin lag</code></td><td>Сводка · отчёт по нагрузке с координатами ферм</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin reload</code> · <code class="c">/ecoadmin save</code></td><td>Перечитать файлы · сохранить данные</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin restart &lt;мин&gt;</code> · <code class="c">/ecoadmin cancelrestart</code></td><td>Перезапуск с предупреждением · отмена</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin economy</code> · <code class="c">/ecoadmin moneytest</code></td><td>Денежная масса · проверка начисления</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecoadmin blockinfo</code> · <code class="c">/ecoadmin setowner &lt;ник&gt;</code></td><td>Блок, на который смотришь · сменить владельца</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/ecobackup now|list|prune|info</code></td><td>Бэкапы</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/stash &lt;ник&gt; [clear]</code></td><td>Буфер игрока</td><td><span class="who adm">админ</span></td></tr>
+          <tr><td><code class="c">/birthday info|check|set|clear|list</code></td><td>Дни рождения и проверка возраста</td><td><span class="who adm">админ</span></td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="cmd-group">
+        <h4>Прочее для игроков</h4>
+        <div class="tw"><table class="cmds"><tbody>
+          <tr><td><code class="c">/stash</code></td><td>Буфер предметов, недоступных в этом мире</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/birthday дд.мм.гггг</code></td><td>Указать день рождения (один раз)</td><td><span class="who">все</span></td></tr>
+          <tr><td><code class="c">/xtp &lt;x&gt; &lt;y|~&gt; &lt;z&gt;</code></td><td>Телепорт по карте (для ролей с <code>xaero</code>)</td><td><span class="who">роль</span></td></tr>
+        </tbody></table></div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s faq" id="faq">
+      <div class="sh"><span class="ico"><svg><use href="#i-help"/></svg></span><h2>Вопросы и ответы</h2></div>
+      <details>
+        <summary>/worldborder поменял барьер только в одном мире</summary>
+        <div><p>Так и задумано в 1.7: у каждого мира свой барьер. Для другого мира — <code>/worldborder in &lt;мир&gt; …</code>. Один барьер на все миры, как в ванили, — выключи <code>worlds.separate_borders</code>.</p></div>
+      </details>
+      <details>
+        <summary>Как добавить человека в команду? А как позвать гостя?</summary>
+        <div><p>В команду — <code>/world add &lt;ник&gt;</code>, он жмёт [Принять]. Гостя — встань в свой локальный мир и напиши <code>/world invite &lt;ник&gt;</code> (с <code>build</code>, если он может строить), гость входит <code>/world visit &lt;твой ник&gt;</code>. Подробно — <a href="#p-team">Команда и гости</a>.</p></div>
+      </details>
+      <details>
+        <summary>Подмир не удаляется</summary>
+        <div><p>Настройки подмира → «Удалить подмир» → подтвердить в окне. Папка стирается, как только миры подмира выгрузятся; имя освобождается сразу. Пока идёт публикация шаблона или установка своего мира, удаление закрыто — дождись конца. Из консоли: <code>/subworld delete &lt;подмир&gt; confirm</code>.</p></div>
+      </details>
+      <details>
+        <summary>Игроки не видят искажения у ГЛИТЧ-бездны</summary>
+        <div><p>Проверь, что во вкладке «ГЛИТЧ-бездна» включены «Искажение пространства» и «Частицы». Искажение видно в радиусе 48 блоков, если смотреть в сторону падения. Без поддержки шейдеров (OptiFine с Fast Render или шейдерпаком, старая видеокарта) остаются только частицы.</p></div>
+      </details>
+      <details>
+        <summary>Не помню id звука, предмета или эффекта</summary>
+        <div><p>Нажми на поле в окне — откроется список с поиском. Звуки можно прослушать кнопкой ▶, предмет — взять «Из руки».</p></div>
+      </details>
+      <details>
+        <summary>Кнопка у инвентаря не двигается</summary>
+        <div><p>Зажми <kbd>Shift</kbd> и перетащи кнопку. В 1.7 она встаёт на место сразу, и в творческом инвентаре тоже. Спрятать планету — <code>general.show_worlds_button</code>.</p></div>
+      </details>
+      <details>
+        <summary>Игрок не может зайти: «версия мода»</summary>
+        <div><p>У сервера и игрока должен быть один и тот же файл. Особенно важно для сборки <code>-quests</code>: обычный jar на клиенте с ней не совместим.</p></div>
+      </details>
+      <details>
+        <summary>Портал из шаблона не работает в локальном мире</summary>
+        <div><p>В 1.7 порталы и зоны шаблона работают во всех локальных мирах подмира. Если портал ведёт «к другому порталу», проверь, что портал назначения существует: в окне будет красная надпись, если его удалили.</p></div>
+      </details>
+    </section>
+
+    <!-- ================================================================== -->
+    <section class="s" id="files">
+      <div class="sh admin"><span class="ico"><svg><use href="#i-folder"/></svg></span><h2>Где лежат файлы</h2></div>
+      <div class="tw"><table class="files">
+        <thead><tr><th>Файл</th><th>Что внутри</th></tr></thead>
+        <tbody>
+          <tr><td><code>config/ecoserv/ecoserv.cfg</code></td><td>Настройки мода (то же, что окно «Настройки мода»)</td></tr>
+          <tr><td><code>config/ecoserv/shop.json</code></td><td>Прайс скупщика; свои прайсы подмиров — <code>shops/&lt;подмир&gt;.json</code></td></tr>
+          <tr><td><code>config/ecoserv/roles.json</code></td><td>Роли</td></tr>
+          <tr><td><code>config/ecoserv/restrictions.json</code></td><td>Запреты предметов и модов по мирам</td></tr>
+          <tr><td><code>world/ecoserv/economy.json</code></td><td>Балансы</td></tr>
+          <tr><td><code>world/ecoserv/player_roles.json</code></td><td>Кому выданы роли и до какого числа</td></tr>
+          <tr><td><code>world/ecoserv/subworlds.json</code></td><td>Подмиры, локальные миры, гости</td></tr>
+          <tr><td><code>world/ecoserv/crews.json</code></td><td>Команды мода</td></tr>
+          <tr><td><code>world/ecoserv/regions.json</code></td><td>Порталы и зоны-триггеры</td></tr>
+          <tr><td><code>world/ecoserv/world_settings.json</code></td><td>Настройки и барьеры основных миров</td></tr>
+          <tr><td><code>world/ecoserv/stash.dat</code></td><td>Буферы игроков</td></tr>
+          <tr><td><code>world/ecoserv_worlds/&lt;подмир&gt;/</code></td><td>Миры подмира и опубликованные версии шаблона</td></tr>
+          <tr><td><code>ecoserv_uploads/</code></td><td>Свои миры для загрузки (рядом с папкой мира)</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>EcoServ 1.7.0 · Minecraft 1.12.2 · Forge 14.23.5</span>
+    <span>Этот гайд лежит в проекте: <code>docs/guide.html</code></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  root.classList.add('js');
+
+  /* копирование команд */
+  var toast = document.getElementById('toast');
+  var timer;
+  function show(msg) {
+    toast.textContent = msg;
+    toast.hidden = false;
+    clearTimeout(timer);
+    timer = setTimeout(function () { toast.hidden = true; }, 1800);
+  }
+  function selectText(el) {
+    try {
+      var r = document.createRange();
+      r.selectNodeContents(el);
+      var s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+    } catch (e) { /* ничего */ }
+  }
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('code.c') : null;
+    if (!el) return;
+    var text = el.textContent.replace(/\s+/g, ' ').trim();
+    selectText(el);
+    var fallback = function () { show('Выделено — нажми Ctrl+C'); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { show('Скопировано: ' + text); }, fallback);
+      } else {
+        fallback();
+      }
+    } catch (err) { fallback(); }
+  });
+
+  /* содержание на телефоне */
+  var toc = document.getElementById('toc');
+  var tocBtn = document.getElementById('tocToggle');
+  tocBtn.addEventListener('click', function () {
+    var open = toc.classList.toggle('open');
+    tocBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  toc.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('a')) {
+      toc.classList.remove('open');
+      tocBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  /* подсветка текущего раздела */
+  var links = Array.prototype.slice.call(toc.querySelectorAll('a[href^="#"]'));
+  var targets = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  var ticking = false;
+  function spy() {
+    ticking = false;
+    var current = -1;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].getBoundingClientRect().top <= 120) current = i;
+    }
+    links.forEach(function (a, i) {
+      if (i === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    if (current >= 0) {
+      var parentLi = links[current].parentNode.parentNode.closest('li');
+      if (parentLi) {
+        var top = parentLi.querySelector('a');
+        if (top && top !== links[current]) top.setAttribute('aria-current', 'true');
+      }
+    }
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(spy); }
+  }, { passive: true });
+  spy();
+
+  /* поиск по командам */
+  var q = document.getElementById('cmdq');
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.cmd-group'));
+  var none = document.getElementById('cmdNone');
+  q.addEventListener('input', function () {
+    var v = q.value.trim().toLowerCase();
+    var any = false;
+    groups.forEach(function (g) {
+      var shown = 0;
+      var groupHit = !v || g.querySelector('h4').textContent.toLowerCase().indexOf(v) >= 0;
+      Array.prototype.forEach.call(g.querySelectorAll('tbody tr'), function (tr) {
+        var hit = groupHit || tr.textContent.toLowerCase().indexOf(v) >= 0;
+        tr.hidden = !hit;
+        if (hit) shown++;
+      });
+      g.hidden = shown === 0;
+      if (shown) any = true;
+    });
+    none.hidden = any;
+  });
+
+  /* схема линзы: сетка, искривлённая как у точечной гравитационной линзы, с закруткой */
+  var grid = document.getElementById('lensGrid');
+  var pxGroup = document.getElementById('lensPx');
+  if (grid && pxGroup) {
+    var W = 640, H = 300, cx = 320, cy = 150, E = 62;
+    var map = function (x, y) {
+      var dx = x - cx, dy = y - cy;
+      var b = Math.sqrt(dx * dx + dy * dy) || 0.001;
+      var th = (b + Math.sqrt(b * b + 4 * E * E)) / 2;
+      var ang = Math.atan2(dy, dx) + 0.85 * (E * E) / (th * th);
+      return [cx + Math.cos(ang) * th, cy + Math.sin(ang) * th];
+    };
+    var d = '';
+    var step = 26;
+    var line = function (fx) {
+      var first = true;
+      for (var t = -60; t <= 760; t += 4) {
+        var p = fx(t);
+        if (p[0] < -20 || p[0] > W + 20 || p[1] < -20 || p[1] > H + 20) { first = true; continue; }
+        d += (first ? 'M' : 'L') + p[0].toFixed(1) + ' ' + p[1].toFixed(1);
+        first = false;
+      }
+    };
+    for (var gx = cx % step - step; gx <= W + step; gx += step) {
+      (function (X) { line(function (t) { return map(X, t - 230); }); })(gx);
+    }
+    for (var gy = cy % step - step; gy <= H + step; gy += step) {
+      (function (Y) { line(function (t) { return map(t - 60, Y); }); })(gy);
+    }
+    grid.setAttribute('d', d);
+    var ns = 'http://www.w3.org/2000/svg';
+    var seed = 7;
+    var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    for (var i = 0; i < 46; i++) {
+      var a = rnd() * Math.PI * 2;
+      var r = E + 8 + Math.pow(rnd(), 1.6) * 120;
+      var s = 3 + Math.floor(rnd() * 5);
+      var rect = document.createElementNS(ns, 'rect');
+      rect.setAttribute('x', (cx + Math.cos(a) * r * 1.35).toFixed(1));
+      rect.setAttribute('y', (cy + Math.sin(a) * r * 0.8).toFixed(1));
+      rect.setAttribute('width', s);
+      rect.setAttribute('height', s);
+      rect.setAttribute('class', 'px' + (1 + Math.floor(rnd() * 3)));
+      rect.setAttribute('opacity', (0.45 + rnd() * 0.55).toFixed(2));
+      pxGroup.appendChild(rect);
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
