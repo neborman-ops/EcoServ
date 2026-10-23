@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EDE",
+    "DND",
+    "BDB"
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "D": {
+      "type": "forge:ore_dict",
+      "ore": "blockDiamond"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "rodBlaze"
+    }
+  },
+  "result": {
+    "item": "ecoserv:fill_wand",
+    "count": 1
+  }
+}

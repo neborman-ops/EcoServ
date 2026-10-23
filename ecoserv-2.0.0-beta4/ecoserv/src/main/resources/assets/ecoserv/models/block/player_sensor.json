@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "ecoserv:blocks/player_sensor_top",
+    "bottom": "ecoserv:blocks/player_sensor_bottom",
+    "side": "ecoserv:blocks/player_sensor_side"
+  }
+}

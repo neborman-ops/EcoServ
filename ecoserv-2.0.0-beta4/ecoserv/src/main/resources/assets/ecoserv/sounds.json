@@ -1,0 +1,142 @@
+{
+  "portal.hum": {
+    "category": "ambient",
+    "subtitle": "ecoserv.subtitle.portal.hum",
+    "sounds": [
+      "ecoserv:portal/hum"
+    ]
+  },
+  "portal.whoosh": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.portal.whoosh",
+    "sounds": [
+      "ecoserv:portal/whoosh"
+    ]
+  },
+  "portal.release": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.portal.release",
+    "sounds": [
+      "ecoserv:portal/release"
+    ]
+  },
+  "portal.monolith": {
+    "category": "ambient",
+    "subtitle": "ecoserv.subtitle.portal.monolith",
+    "sounds": [
+      "ecoserv:portal/monolith"
+    ]
+  },
+  "abyss.fall": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.abyss.fall",
+    "sounds": [
+      "ecoserv:abyss/fall"
+    ]
+  },
+  "ui.click": {
+    "category": "master",
+    "subtitle": "ecoserv.subtitle.ui.click",
+    "sounds": [
+      "ecoserv:ui/click"
+    ]
+  },
+  "ui.open": {
+    "category": "master",
+    "subtitle": "ecoserv.subtitle.ui.open",
+    "sounds": [
+      "ecoserv:ui/open"
+    ]
+  },
+  "ui.toast": {
+    "category": "master",
+    "subtitle": "ecoserv.subtitle.ui.toast",
+    "sounds": [
+      "ecoserv:ui/toast"
+    ]
+  },
+  "ui.coin": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.ui.coin",
+    "sounds": [
+      "ecoserv:ui/coin"
+    ]
+  },
+  "game.countdown": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.game.countdown",
+    "sounds": [
+      "ecoserv:game/countdown"
+    ]
+  },
+  "game.start": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.game.start",
+    "sounds": [
+      "ecoserv:game/start"
+    ]
+  },
+  "game.win": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.game.win",
+    "sounds": [
+      "ecoserv:game/win"
+    ]
+  },
+  "game.lose": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.game.lose",
+    "sounds": [
+      "ecoserv:game/lose"
+    ]
+  },
+  "game.checkpoint": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.game.checkpoint",
+    "sounds": [
+      "ecoserv:game/checkpoint"
+    ]
+  },
+  "game.trap": {
+    "category": "block",
+    "subtitle": "ecoserv.subtitle.game.trap",
+    "sounds": [
+      "ecoserv:game/trap"
+    ]
+  },
+  "game.alarm": {
+    "category": "block",
+    "subtitle": "ecoserv.subtitle.game.alarm",
+    "sounds": [
+      "ecoserv:game/alarm"
+    ]
+  },
+  "game.steam": {
+    "category": "block",
+    "subtitle": "ecoserv.subtitle.game.steam",
+    "sounds": [
+      "ecoserv:game/steam"
+    ]
+  },
+  "game.valve": {
+    "category": "block",
+    "subtitle": "ecoserv.subtitle.game.valve",
+    "sounds": [
+      "ecoserv:game/valve"
+    ]
+  },
+  "game.chaser": {
+    "category": "hostile",
+    "subtitle": "ecoserv.subtitle.game.chaser",
+    "sounds": [
+      "ecoserv:game/chaser"
+    ]
+  },
+  "game.heartbeat": {
+    "category": "player",
+    "subtitle": "ecoserv.subtitle.game.heartbeat",
+    "sounds": [
+      "ecoserv:game/heartbeat"
+    ]
+  }
+}
